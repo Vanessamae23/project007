@@ -41,12 +41,12 @@ const Router = () => {
         name="MainApp"
         component={MainApp}
         options={{headerShown: false}}
-      />
-      <Stack.Screen
+      /> 
+      {/* <Stack.Screen
         name="Home"
         component={Home}
         options={{headerShown: false}}
-      />
+      /> 
       {/* <Stack.Screen
         name="ForgotPassword"
         component={ForgotPassword}

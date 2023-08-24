@@ -1,9 +1,12 @@
 import { StyleSheet, ScrollView, Text, View } from 'react-native'
 import React from 'react'
+import { Card, Header } from '../../components'
 
 export default function Home() {
   return (
     <ScrollView style={styles.page}>
+        <Header title="Good day," subtitle="Vanessa Mae" />
+        <Card />
       <Text style={styles.welcome}>index</Text>
     </ScrollView>
   )

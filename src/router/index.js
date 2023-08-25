@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {SplashScreen, Login,  Home, AddFood, Messages, ForgotPassword, Register,  Calendar,  Chatting,  ChooseMentor, ImageIdentifier, RemainingBites } from '../pages';
+import { Opening, Login,  Home, AddFood, Messages, ForgotPassword, Register,  Calendar,  Chatting,  ChooseMentor, ImageIdentifier, RemainingBites } from '../pages';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -23,15 +23,15 @@ const Router = () => {
   return (
     <Stack.Navigator>
       {/* <Stack.Screen
-        name="SplashScreen"
-        component={SplashScreen}
+        name="Opening"
+        component={Opening}
         options={{headerShown: false}}
-      />
+      /> */}
        <Stack.Screen
         name="Login"
         component={Login}
         options={{headerShown: false}}
-      /> */}
+      />
        <Stack.Screen
         name="Register"
         component={Register}

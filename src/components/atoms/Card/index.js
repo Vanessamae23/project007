@@ -2,10 +2,10 @@ import { Image, StyleSheet, ImageBackground, Text, View } from 'react-native'
 import React from 'react'
 import { TiktokLogo } from '../../../assets'
 
-export default function Card() {
+export default function Card({name}) {
   return (
     <View style={styles.card}>
-            <Text style={styles.name}>Vanessa Mae</Text>
+            <Text style={styles.name}>{name}</Text>
             <Text style={styles.number}>**** **** **** **00 9100</Text>
             <Image style={styles.backgroundImage} source={TiktokLogo} ></Image>
             <View>

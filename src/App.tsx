@@ -4,8 +4,9 @@ import Router from './router';
 import FlashMessage from 'react-native-flash-message';
 import { Provider, useSelector } from 'react-redux';
 import store from './redux/store';
+import { LogBox } from 'react-native';
 //import { Loading } from './components';
- 
+LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
  
 const MainApp = () => {
   const stateGlobal = useSelector(state => state)

@@ -34,10 +34,12 @@ const Register = ({navigation}) => {
 
             // Save user data to the database
             set(userRef, data);
+            storeData('user', data);
+            
             navigation.navigate('Home', data);
 
             setForm('reset');
-            storeData('user', data);
+            
             showMessage({
               message: "Successfully created",
               type: 'default',

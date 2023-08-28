@@ -5,5 +5,8 @@ import Gap from "./Gap";
 import Header from "./Header";
 import Input from "./Input";
 import Button from "./Button";
+import Chip from "./Chip";
+import Transaction from './Transaction';
 
-export { TabItem, Input, Button, BottomNavigator, Gap, Card, Header }
+
+export { TabItem, Transaction, Input, Button, BottomNavigator, Gap, Card, Header, Chip }

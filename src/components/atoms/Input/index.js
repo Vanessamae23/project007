@@ -9,18 +9,20 @@ const Input = ({
   onChangeText,
   secureTextEntry,
   value,
+  fullWidth = false
 }) => {
 
   if (onNumber) {
     return (
-      <View>
-        <Text style={styles.label}>{label}</Text>
+      <View style={styles.follow}>
+        <Text style={styles.phonelabel}>{label}</Text>
         <TextInput
-          style={styles.input}
+          style={styles.phoneinput}
           placeholder={placeholder}
           keyboardType="number-pad"
           secureTextEntry={secureTextEntry}
           value={value}
+          fullWidth={fullWidth}
           onChangeText={onChangeText}
         />
       </View>
@@ -47,6 +49,11 @@ const styles = StyleSheet.create({
     color: colors.white,
     marginBottom: 10,
   },
+  phonelabel: {
+    fontSize: 20,
+    color: colors.white,
+    marginBottom: 10,
+  },
   input: {
     borderWidth: 1,
     borderColor: colors.white,
@@ -59,4 +66,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4, // Adjust shadow radius as needed
     elevation: 4, // For Android shadow
   },
+  phoneinput: {
+    borderBottomWidth: 2,
+    borderColor: colors.white,
+    borderRadius: 8,
+    color: colors.white,
+    fontSize: 30,
+    textAlign: 'center',
+    padding: 10,
+  },
+  follow: {
+    minWidth: '30%',
+  }
 });

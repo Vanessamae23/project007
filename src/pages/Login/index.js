@@ -23,7 +23,7 @@ const Login = ({navigation}) => {
                 const data = snapshot.val()
                 if (data) {
                     storeData('user', data);
-                    navigation.replace('MainApp')
+                    navigation.replace('Home')
                 }
             })
         }).catch(e => {

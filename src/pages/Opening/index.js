@@ -10,11 +10,11 @@ const Opening = ({navigation}) => {
       const logged = onAuthStateChanged(auth, (user) => {
         setTimeout(() => {
             if (user) {
-                navigation.replace('MainApp');
-            } else {
                 navigation.replace('Home');
+            } else {
+                navigation.replace('Login');
             }
-        }, 12000);
+        }, 2000);
       })
     
       return () => {

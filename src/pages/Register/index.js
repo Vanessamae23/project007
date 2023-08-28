@@ -27,6 +27,7 @@ const Register = ({navigation}) => {
               fullName: form.fullName,
               email: form.email,
               uid: user.uid,
+              wallet: 0,
             };
             // set is to keep the data
             const database = getDatabase();

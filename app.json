@@ -1,4 +1,14 @@
 {
   "name": "myapp",
-  "displayName": "myapp"
+  "displayName": "myapp",
+  "plugins": [
+    [
+      "@stripe/stripe-react-native",
+      {
+        "merchantIdentifier": "TODO",
+        "enableGooglePay": true
+      }
+    ]
+  ]
 }
+

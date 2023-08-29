@@ -1,0 +1,226 @@
+[debug] [2023-08-27T14:31:19.911Z] ----------------------------------------------------------------------
+[debug] [2023-08-27T14:31:19.914Z] Command:       /usr/local/bin/node /usr/local/bin/firebase emulators:start --only functions --project tiktok
+[debug] [2023-08-27T14:31:19.915Z] CLI Version:   12.5.2
+[debug] [2023-08-27T14:31:19.916Z] Platform:      darwin
+[debug] [2023-08-27T14:31:19.916Z] Node Version:  v19.3.0
+[debug] [2023-08-27T14:31:19.917Z] Time:          Sun Aug 27 2023 22:31:19 GMT+0800 (Singapore Standard Time)
+[debug] [2023-08-27T14:31:19.917Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-08-27T14:31:20.108Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-08-27T14:31:20.109Z] > authorizing via signed-in user (pr.virakarin.acc@gmail.com)
+[info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
+[debug] [2023-08-27T14:31:22.774Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-08-27T14:31:22.775Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2023-08-27T14:31:22.783Z] [hub] writing locator at /var/folders/4r/8fdj640x51d6c_1qmzjv41480000gn/T/hub-tiktok.json
+[debug] [2023-08-27T14:31:23.378Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-08-27T14:31:23.378Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-08-27T14:31:23.379Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, firestore, database, hosting, pubsub, storage\u001b[22m"}}
+[debug] [2023-08-27T14:31:23.382Z] defaultcredentials: writing to file /Users/pv-mac/.config/firebase/pr_virakarin.acc_gmail.com_application_default_credentials.json
+[debug] [2023-08-27T14:31:23.401Z] Setting GAC to /Users/pv-mac/.config/firebase/pr_virakarin.acc_gmail.com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/pv-mac/.config/firebase/pr_virakarin.acc_gmail.com_application_default_credentials.json"}}
+[debug] [2023-08-27T14:31:23.402Z] > refreshing access token with scopes: []
+[debug] [2023-08-27T14:31:23.405Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-08-27T14:31:23.405Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-08-27T14:31:23.458Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-08-27T14:31:23.458Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-08-27T14:31:23.509Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tiktok/adminSdkConfig [none]
+[debug] [2023-08-27T14:31:24.123Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tiktok/adminSdkConfig 403
+[debug] [2023-08-27T14:31:24.123Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tiktok/adminSdkConfig {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2023-08-27T14:31:24.124Z] Failed to get Admin SDK config for tiktok, falling back to cache Failed to get Admin SDK for Firebase project tiktok. Please make sure the project exists and your account has permission to access it. {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Admin SDK for Firebase project tiktok. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}},"response":{"statusCode":403}},"exit":1,"message":"HTTP Error: 403, The caller does not have permission","status":403},"status":500}
+[warn] ⚠  functions: Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect. {"metadata":{"emulator":{"name":"functions"},"message":"Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect."}}
+[debug] [2023-08-27T14:31:24.135Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-08-27T14:31:24.135Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-08-27T14:31:24.135Z] Starting Emulator UI with command {"binary":"node","args":["/Users/pv-mac/.cache/firebase/emulators/ui-v1.11.7/server/server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/pv-mac/.cache/firebase/emulators/ui-v1.11.7/server/server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2023-08-27T14:31:24.412Z] Web / API server started at 127.0.0.1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4000\n"}}
+[debug] [2023-08-27T14:31:24.413Z] Web / API server started at ::1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4000\n"}}
+[info] i  functions: Watching "/Users/pv-mac/webproj/tiktok/project007/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/pv-mac/webproj/tiktok/project007/functions\" for Cloud Functions..."}}
+[debug] [2023-08-27T14:31:24.653Z] Validating nodejs source
+[debug] [2023-08-27T14:31:26.556Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-08-27T14:31:26.556Z] Building nodejs source
+[debug] [2023-08-27T14:31:26.556Z] Failed to find version of module node: reached end of search path /Users/pv-mac/webproj/tiktok/project007/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "18" doesn't match your global version "19". Using node@19 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-08-27T14:31:26.561Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-08-27T14:31:26.572Z] Found firebase-functions binary at '/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8670
+
+[debug] [2023-08-27T14:31:27.528Z] Got response from /__/functions.yaml {"endpoints":{"createPaymentIntent":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"createPaymentIntent"},"cancelPaymentIntent":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"cancelPaymentIntent"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[info] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: createPaymentIntent, cancelPaymentIntent. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createPaymentIntent, cancelPaymentIntent."}}
+[info] ✔  functions[us-central1-createPaymentIntent]: http function initialized (http://127.0.0.1:5001/tiktok/us-central1/createPaymentIntent). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tiktok/us-central1/createPaymentIntent)."}}
+[info] ✔  functions[us-central1-cancelPaymentIntent]: http function initialized (http://127.0.0.1:5001/tiktok/us-central1/cancelPaymentIntent). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tiktok/us-central1/cancelPaymentIntent)."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2023-08-27T15:20:53.102Z] ----------------------------------------------------------------------
+[debug] [2023-08-27T15:20:53.112Z] Command:       /usr/local/bin/node /usr/local/bin/firebase emulators:start --only functions --project tiktok
+[debug] [2023-08-27T15:20:53.112Z] CLI Version:   12.5.2
+[debug] [2023-08-27T15:20:53.113Z] Platform:      darwin
+[debug] [2023-08-27T15:20:53.113Z] Node Version:  v19.3.0
+[debug] [2023-08-27T15:20:53.113Z] Time:          Sun Aug 27 2023 23:20:53 GMT+0800 (Singapore Standard Time)
+[debug] [2023-08-27T15:20:53.113Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-08-27T15:20:53.257Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-08-27T15:20:53.257Z] > authorizing via signed-in user (pr.virakarin.acc@gmail.com)
+[info] i  emulators: Starting emulators: functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions"}}
+[debug] [2023-08-27T15:20:53.871Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-08-27T15:20:53.871Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2023-08-27T15:20:53.882Z] [hub] writing locator at /var/folders/4r/8fdj640x51d6c_1qmzjv41480000gn/T/hub-tiktok.json
+[debug] [2023-08-27T15:20:54.338Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-08-27T15:20:54.338Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2023-08-27T15:20:54.339Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: auth, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mauth, firestore, database, hosting, pubsub, storage\u001b[22m"}}
+[debug] [2023-08-27T15:20:54.345Z] defaultcredentials: writing to file /Users/pv-mac/.config/firebase/pr_virakarin.acc_gmail.com_application_default_credentials.json
+[debug] [2023-08-27T15:20:54.369Z] Setting GAC to /Users/pv-mac/.config/firebase/pr_virakarin.acc_gmail.com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/pv-mac/.config/firebase/pr_virakarin.acc_gmail.com_application_default_credentials.json"}}
+[debug] [2023-08-27T15:20:54.370Z] > refreshing access token with scopes: []
+[debug] [2023-08-27T15:20:54.372Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-08-27T15:20:54.372Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-08-27T15:20:54.428Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-08-27T15:20:54.428Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-08-27T15:20:54.482Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tiktok/adminSdkConfig [none]
+[debug] [2023-08-27T15:20:55.096Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tiktok/adminSdkConfig 403
+[debug] [2023-08-27T15:20:55.097Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tiktok/adminSdkConfig {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2023-08-27T15:20:55.098Z] Failed to get Admin SDK config for tiktok, falling back to cache Failed to get Admin SDK for Firebase project tiktok. Please make sure the project exists and your account has permission to access it. {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Admin SDK for Firebase project tiktok. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}},"response":{"statusCode":403}},"exit":1,"message":"HTTP Error: 403, The caller does not have permission","status":403},"status":500}
+[warn] ⚠  functions: Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect. {"metadata":{"emulator":{"name":"functions"},"message":"Unable to fetch project Admin SDK configuration, Admin SDK behavior in Cloud Functions emulator may be incorrect."}}
+[debug] [2023-08-27T15:20:55.114Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2023-08-27T15:20:55.114Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2023-08-27T15:20:55.114Z] Starting Emulator UI with command {"binary":"node","args":["/Users/pv-mac/.cache/firebase/emulators/ui-v1.11.7/server/server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/pv-mac/.cache/firebase/emulators/ui-v1.11.7/server/server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
+[debug] [2023-08-27T15:20:55.366Z] Web / API server started at 127.0.0.1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4000\n"}}
+[debug] [2023-08-27T15:20:55.367Z] Web / API server started at ::1:4000
+ {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4000\n"}}
+[info] i  functions: Watching "/Users/pv-mac/webproj/tiktok/project007/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/pv-mac/webproj/tiktok/project007/functions\" for Cloud Functions..."}}
+[debug] [2023-08-27T15:20:55.378Z] Validating nodejs source
+[debug] [2023-08-27T15:20:56.611Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "stripe": "^13.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-08-27T15:20:56.612Z] Building nodejs source
+[debug] [2023-08-27T15:20:56.612Z] Failed to find version of module node: reached end of search path /Users/pv-mac/webproj/tiktok/project007/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "18" doesn't match your global version "19". Using node@19 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-08-27T15:20:56.618Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-08-27T15:20:56.624Z] Found firebase-functions binary at '/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8476
+
+[debug] [2023-08-27T15:20:58.631Z] Got response from /__/functions.yaml {"endpoints":{"createPaymentIntent":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"createPaymentIntent"},"cancelPaymentIntent":{"platform":"gcfv1","labels":{},"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"callableTrigger":{},"entryPoint":"cancelPaymentIntent"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[info] shutdown requested via /__/quitquitquit
+
+[info] ✔  functions: Loaded functions definitions from source: createPaymentIntent, cancelPaymentIntent. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createPaymentIntent, cancelPaymentIntent."}}
+[info] ✔  functions[us-central1-createPaymentIntent]: http function initialized (http://127.0.0.1:5001/tiktok/us-central1/createPaymentIntent). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tiktok/us-central1/createPaymentIntent)."}}
+[info] ✔  functions[us-central1-cancelPaymentIntent]: http function initialized (http://127.0.0.1:5001/tiktok/us-central1/cancelPaymentIntent). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/tiktok/us-central1/cancelPaymentIntent)."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Functions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at 127.0.0.1:4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2023-08-27T15:21:36.040Z] [work-queue] {"queuedWork":["/tiktok/us-central1/createPaymentIntent-2023-08-27T15:21:36.040Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2023-08-27T15:21:36.041Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/tiktok/us-central1/createPaymentIntent-2023-08-27T15:21:36.040Z"],"workRunningCount":1}
+[debug] [2023-08-27T15:21:36.042Z] Accepted request POST /tiktok/us-central1/createPaymentIntent --> us-central1-createPaymentIntent
+[debug] [2023-08-27T15:21:36.046Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2023-08-27T15:21:36.047Z] [functions] Got req.url=/tiktok/us-central1/createPaymentIntent, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/tiktok/us-central1/createPaymentIntent, mapping to path=/"}}
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-08-27T15:21:36.054Z] [worker-pool] addWorker(us-central1-createPaymentIntent) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-createPaymentIntent)"}}
+[debug] [2023-08-27T15:21:36.055Z] [worker-pool] Adding worker with key us-central1-createPaymentIntent, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-createPaymentIntent, total=1"}}
+[debug] [2023-08-27T15:21:36.999Z] [runtime-status] [2031] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.10.1","resolution":"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"11.10.1\",\"resolution\":\"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2023-08-27T15:21:37.000Z] [runtime-status] [2031] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-08-27T15:21:37.000Z] [runtime-status] [2031] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2023-08-27T15:21:37.001Z] [runtime-status] [2031] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-08-27T15:21:37.234Z] [runtime-status] [2031] Checked functions.config() {"config":{}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Checked functions.config() {\"config\":{}}"}}
+[debug] [2023-08-27T15:21:37.234Z] [runtime-status] [2031] firebase-functions has been stubbed. {"functionsResolution":{"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] firebase-functions has been stubbed. {\"functionsResolution\":{\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js\"}}"}}
+[debug] [2023-08-27T15:21:37.235Z] [runtime-status] [2031] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-08-27T15:21:37.236Z] [runtime-status] [2031] Resolved module firebase-admin {"declared":true,"installed":true,"version":"11.10.1","resolution":"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"11.10.1\",\"resolution\":\"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2023-08-27T15:21:37.238Z] [runtime-status] [2031] Resolved module firebase-functions {"declared":true,"installed":true,"version":"4.4.1","resolution":"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"4.4.1\",\"resolution\":\"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2023-08-27T15:21:37.238Z] [runtime-status] [2031] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"11.10.1","resolution":"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"11.10.1\",\"resolution\":\"/Users/pv-mac/webproj/tiktok/project007/functions/node_modules/firebase-admin/lib/index.js\"}}"}}
+[debug] [2023-08-27T15:21:37.295Z] [runtime-status] [2031] initializeApp(DEFAULT) {"storageBucket":"tiktok.appspot.com","databaseURL":"https://tiktok.firebaseio.com","projectId":"tiktok"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] initializeApp(DEFAULT) {\"storageBucket\":\"tiktok.appspot.com\",\"databaseURL\":\"https://tiktok.firebaseio.com\",\"projectId\":\"tiktok\"}"}}
+[debug] [2023-08-27T15:21:37.309Z] [runtime-status] [2031] Functions runtime initialized. {"cwd":"/Users/pv-mac/webproj/tiktok/project007/functions","node_version":"19.3.0"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Functions runtime initialized. {\"cwd\":\"/Users/pv-mac/webproj/tiktok/project007/functions\",\"node_version\":\"19.3.0\"}"}}
+[debug] [2023-08-27T15:21:37.310Z] [runtime-status] [2031] Listening to port: /var/folders/4r/8fdj640x51d6c_1qmzjv41480000gn/T/fire_emu_6472354aa7280305.sock {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] Listening to port: /var/folders/4r/8fdj640x51d6c_1qmzjv41480000gn/T/fire_emu_6472354aa7280305.sock"}}
+[debug] [2023-08-27T15:21:37.379Z] [worker-us-central1-createPaymentIntent-ce22ebb5-b329-4c01-8506-347c03341f8c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[worker-us-central1-createPaymentIntent-ce22ebb5-b329-4c01-8506-347c03341f8c]: IDLE"}}
+[debug] [2023-08-27T15:21:37.380Z] [worker-pool] submitRequest(triggerId=us-central1-createPaymentIntent) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createPaymentIntent)"}}
+[info] i  functions: Beginning execution of "us-central1-createPaymentIntent" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"Beginning execution of \"us-central1-createPaymentIntent\""}}
+[debug] [2023-08-27T15:21:37.381Z] [worker-us-central1-createPaymentIntent-ce22ebb5-b329-4c01-8506-347c03341f8c]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[worker-us-central1-createPaymentIntent-ce22ebb5-b329-4c01-8506-347c03341f8c]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2023-08-27T15:21:37.396Z] [runtime-status] [2031] No callable functions auth found {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[runtime-status] [2031] No callable functions auth found"}}
+[debug] [2023-08-27T15:21:37.827Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createPaymentIntent" in 446.406605ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"Finished \"us-central1-createPaymentIntent\" in 446.406605ms"}}
+[debug] [2023-08-27T15:21:37.827Z] [worker-us-central1-createPaymentIntent-ce22ebb5-b329-4c01-8506-347c03341f8c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"[worker-us-central1-createPaymentIntent-ce22ebb5-b329-4c01-8506-347c03341f8c]: IDLE"}}
+[debug] [2023-08-27T15:21:37.828Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2023-08-27T15:21:37.828Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createPaymentIntent"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2023-08-27T15:21:37.828Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}

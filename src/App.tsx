@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import Router from './router';
 import FlashMessage from 'react-native-flash-message';
-import { Provider, useSelector } from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import store from './redux/store';
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
 //import { Loading } from './components';
-LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
- 
+LogBox.ignoreLogs([
+  'Warning: Async Storage has been extracted from react-native core',
+]);
+
 const MainApp = () => {
-  const stateGlobal = useSelector(state => state)
+  const stateGlobal = useSelector(state => state);
   return (
     <>
       <NavigationContainer>
@@ -27,6 +29,6 @@ const App = () => {
       <MainApp />
     </Provider>
   );
-}
+};
 
 export default App;

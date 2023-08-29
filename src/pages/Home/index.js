@@ -2,6 +2,7 @@ import {StyleSheet, ScrollView, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {getData} from '../../utils/localStorage';
 import {Card, Header, Button} from '../../components';
+import { useListenForBalance } from '../../config/Firebase';
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -11,6 +12,8 @@ export default function Home() {
       setUsername(data.fullName);
     });
   }, []);
+
+  useListenForBalance();
 
   const handleTopUp = () => {};
 

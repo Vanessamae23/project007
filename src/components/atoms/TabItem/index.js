@@ -1,16 +1,26 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { ICCalendar } from '../../../assets/Icon'
+import { ICCalendar, ICProfile } from '../../../assets/Icon'
 
 const TabItem = ({title, active, onPress, onLongPress}) => {
 
-    const Icons = () => {
+    const Icons = (title) => {
+        if(title == "Profile") {
+            return <ICProfile />
+        }
         return <ICCalendar />
     }
-
+    if (title == "Home") {
+        return (
+            <TouchableOpacity activeOpacity={0.7} style={styles.container} onPress={onPress} onLongPress={onLongPress}>
+                <ICProfile />
+              <Text style={styles.text(active)}>{title}</Text>
+            </TouchableOpacity>
+      )
+    }
   return (
         <TouchableOpacity activeOpacity={0.7} style={styles.container} onPress={onPress} onLongPress={onLongPress}>
-            {/* <Icons /> */}
+            <ICCalendar />
           <Text style={styles.text(active)}>{title}</Text>
         </TouchableOpacity>
   )

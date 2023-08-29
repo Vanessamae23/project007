@@ -6,7 +6,7 @@ const mainColors = {
     blue3: "#0b5394",
     blue4: "#d0e0e3",
     grey2: "#7D8797",
-    grey3: "#808080",
+    grey3: "#d3d3d3",
     black1: "#00000",
     black2: 'rgba(0, 0, 0, 0.5)',
     red1: "#E06379",
@@ -16,13 +16,14 @@ const mainColors = {
 
 export const colors = {
     primary: mainColors.grey1,
-    secondary: mainColors.dark1,
+    secondary: mainColors.grey3,
     card: mainColors.blue2,
     white: "white",
     black: "black",
     success: mainColors.green1,
     card: mainColors.blue4,
     circle: mainColors.grey2,
+    circle2: mainColors.grey3,
     text: {
         primary: "black",
         secondary: mainColors.grey2,

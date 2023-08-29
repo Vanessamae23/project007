@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { Opening, Login,  Home, AddFood, Messages, ForgotPassword, Register,  Calendar,  Chatting,  ChooseMentor, ImageIdentifier, RemainingBites } from '../pages';
+import { Opening, Login, Register, Home, TopUp, Withdraw } from '../pages';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -15,6 +15,7 @@ const MainApp = () => {
       headerShown: false
     }} tabBar={props => <BottomNavigator {...props} />}>
       <Tab.Screen name="Home" component={Home}/>
+      <Tab.Screen name="Profile" component={Home}/>
     </Tab.Navigator>
   )
 }
@@ -22,12 +23,12 @@ const MainApp = () => {
 const Router = () => {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Opening"
         component={Opening}
         options={{headerShown: false}}
-      /> */}
-       <Stack.Screen
+      /> 
+      <Stack.Screen
         name="Login"
         component={Login}
         options={{headerShown: false}}
@@ -37,21 +38,26 @@ const Router = () => {
         component={Register}
         options={{headerShown: false}}
       />  
-      <Stack.Screen
+      {/* <Stack.Screen
         name="MainApp"
         component={MainApp}
         options={{headerShown: false}}
-      /> 
+      />  */}
       <Stack.Screen
         name="Home"
         component={Home}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
-        name="ForgotPassword"
-        component={ForgotPassword}
+      <Stack.Screen
+        name="TopUp"
+        component={TopUp}
         options={{headerShown: false}}
-      /> */}
+      />
+      <Stack.Screen
+        name="Withdraw"
+        component={Withdraw}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

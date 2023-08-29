@@ -1,8 +1,9 @@
 import { StyleSheet, ScrollView, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { getData } from '../../utils/localStorage'
 import { Card, Chip, Header, Transaction } from '../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useListenForBalance } from '../../config/Firebase';
 
 export default function Home({navigation}) {
   const [ username, setUsername ] =useState('')
@@ -12,7 +13,9 @@ export default function Home({navigation}) {
       const data = res;
       setUsername(data.fullName)
     })
-  }, [])
+  }, []);
+
+  useListenForBalance();
   return (
     <View style={styles.page}>
       <View style={styles.box1}>

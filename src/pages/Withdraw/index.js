@@ -15,7 +15,7 @@ const Withdraw = ({navigation}) => {
         <View style={styles.circle3} />
         <View style={styles.header}>
             <Text style={styles.balance}>Current Balance</Text>
-            <Text style={styles.price}>S$12.00</Text>
+            <Text style={styles.amount}>S$12.00</Text>
         </View>
         <View style={styles.container}>
             <Text style={styles.head}>Withdraw</Text>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1
     },
-    price: {
+    amount: {
         fontWeight: '700',
         color: colors.black,
         fontSize: 40

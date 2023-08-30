@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { Opening, Login, Register, Home, TopUp, Transfer, TransferAmount, Withdraw } from '../pages';
+import { Opening, Login, Register, Home, TopUp, Transfer, TransferAmount, Withdraw, History } from '../pages';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -66,6 +66,11 @@ const Router = () => {
       <Stack.Screen
         name="Withdraw"
         component={Withdraw}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="History"
+        component={History}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

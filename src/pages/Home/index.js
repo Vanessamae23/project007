@@ -1,11 +1,12 @@
-import { StyleSheet, ScrollView, Text, View } from 'react-native'
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getData } from '../../utils/localStorage'
-import { Card, Chip, Header, Transaction } from '../../components'
+import { Card, Chip, Gap, Header, Transaction } from '../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { sampleTransactions } from '../History'
 
-export default function Home({navigation}) {
-  const [ username, setUsername ] =useState('')
+export default function Home({ navigation }) {
+  const [username, setUsername] = useState('')
   const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
     getData('user').then(res => {
@@ -26,53 +27,58 @@ export default function Home({navigation}) {
           flex: 1
         }} horizontal={true} style={styles.action}>
           <Chip onPress={() => navigation.navigate("TopUp")} type="Top up" title="Top Up" />
-          <Chip type="Transfer" title="Transfer"  onPress={() => navigation.navigate("Transfer")}/>
-          <Chip title="Withdraw"  onPress={() => navigation.navigate("Withdraw")}/>
+          <Chip type="Transfer" title="Transfer" onPress={() => navigation.navigate("Transfer")} />
+          <Chip title="Withdraw" onPress={() => navigation.navigate("Withdraw")} />
         </ScrollView>
       </View>
       <View style={styles.box}>
-        <Text style={styles.welcome}>Transaction History</Text>
+        <Text style={styles.welcome}>Latest Transactions</Text>
+        <Text style={styles.subheader} onPress={() => navigation.navigate("History")}>
+          View All Transactions
+        </Text>
         <ScrollView style={styles.tran}>
-          <Transaction name="Puri" date="2022-23-02" price="+$20.00" />
-          <Transaction name="Puri" date="2022-23-02" price="+$20.00" />
-          <Transaction name="Puri" date="2022-23-02" price="+$20.00" />
-          <Transaction name="Puri" date="2022-23-02" price="+$20.00" />
-          <Transaction name="Puri" date="2022-23-02" price="+$20.00" />
-          <Transaction name="Puri" date="2022-23-02" price="+$20.00" />
+          {sampleTransactions.map((transaction, index) => (
+            <Transaction key={index} {...transaction} />
+          ))}
         </ScrollView>
+
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-    welcome: {
-        fontSize: 22,
-        marginTop: 20,
-        marginBottom: 15,
-        maxWidth: 300,
-        fontWeight: "600",
-        color: 'black',
-        fontWeight: '600'
-    },
-    box: {
-       flex: 1,
-    },
-
-    page: {
-        paddingTop: 30,
-        paddingHorizontal: 16,
-        backgroundColor: "white",
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%'
-    },
-    action: {
-      flex: 1,
-      display: 'flex',
-    },
-    tran: {
-      paddingHorizontal: 10
-    }
+  welcome: {
+    fontSize: 22,
+    marginTop: 20,
+    marginBottom: 15,
+    maxWidth: 300,
+    fontWeight: "600",
+    color: 'black',
+    fontWeight: '600'
+  },
+  box: {
+    flex: 1,
+  },
+  page: {
+    paddingTop: 30,
+    paddingHorizontal: 16,
+    backgroundColor: "white",
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
+  },
+  action: {
+    flex: 1,
+    display: 'flex',
+  },
+  tran: {
+    paddingHorizontal: 10
+  },
+  subheader: {
+    fontSize: 12,
+    marginTop: -10,
+    marginBottom: 10,
+  },
 })

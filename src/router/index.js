@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { Opening, Login, Register, Home, TopUp, Withdraw } from '../pages';
+import { Opening, Login, Register, Home, TopUp, Transfer, TransferAmount, Withdraw } from '../pages';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -51,6 +51,16 @@ const Router = () => {
       <Stack.Screen
         name="TopUp"
         component={TopUp}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Transfer"
+        component={Transfer}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TransferAmount"
+        component={TransferAmount}
         options={{headerShown: false}}
       />
       <Stack.Screen

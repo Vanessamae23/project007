@@ -26,7 +26,7 @@ export default function Home({navigation}) {
           flex: 1
         }} horizontal={true} style={styles.action}>
           <Chip onPress={() => navigation.navigate("TopUp")} type="Top up" title="Top Up" />
-          <Chip type="Transfer" title="Transfer"  onPress={() => navigation.navigate("TopUp")}/>
+          <Chip type="Transfer" title="Transfer"  onPress={() => navigation.navigate("Transfer")}/>
           <Chip title="Withdraw"  onPress={() => navigation.navigate("Withdraw")}/>
         </ScrollView>
       </View>

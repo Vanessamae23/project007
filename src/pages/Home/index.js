@@ -1,11 +1,16 @@
-import {StyleSheet, ScrollView, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {getData} from '../../utils/localStorage';
-import {Card, Header, Button} from '../../components';
+
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { getData } from '../../utils/localStorage'
+import { Card, Chip, Gap, Header, Button, Transaction } from '../../components'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { sampleTransactions } from '../History'
 import { useListenForBalance } from '../../config/Firebase';
 
-export default function Home() {
-  const [username, setUsername] = useState('');
+export default function Home({ navigation }) {
+  const [username, setUsername] = useState('')
+  const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
     getData('user').then(res => {
       const data = res;
@@ -20,20 +25,32 @@ export default function Home() {
   const handleTransfer = () => {};
 
   return (
-    <ScrollView style={styles.page}>
-      <Header title="Good day," subtitle={username} />
-      <Card name={username} />
-      <Text style={styles.welcome}>Actions</Text>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
-
-        }}>
-        <Button text="Top Up" onPress={handleTopUp} />
-        <Button text="Transfer" onPress={handleTransfer} />
+    <View style={styles.page}>
+      <View style={styles.box1}>
+        <Header navigation={navigation} onPress={() => setModalVisible(!modalVisible)} modalVisible={modalVisible} title="Good day," subtitle={username} />
+        <Card name={username} />
+      </View>
+      <View style={styles.box}>
+        <Text style={styles.welcome}>Actions</Text>
+        <ScrollView contentContainerStyle={{
+          justifyContent: 'space-around',
+          flex: 1
+        }} horizontal={true} style={styles.action}>
+          <Chip onPress={() => navigation.navigate("TopUp")} type="Top up" title="Top Up" />
+          <Chip type="Transfer" title="Transfer" onPress={() => navigation.navigate("Transfer")} />
+          <Chip title="Withdraw" onPress={() => navigation.navigate("Withdraw")} />
+        </ScrollView>
+      </View>
+      <View style={styles.box}>
+        <Text style={styles.welcome}>Latest Transactions</Text>
+        <Text style={styles.subheader} onPress={() => navigation.navigate("History")}>
+          View All Transactions
+        </Text>
+        <ScrollView style={styles.tran}>
+          {sampleTransactions.map((transaction, index) => (
+            <Transaction key={index} {...transaction} />
+          ))}
+        </ScrollView>
       </View>
     </ScrollView>
   );
@@ -42,6 +59,15 @@ export default function Home() {
 const styles = StyleSheet.create({
   welcome: {
     fontSize: 22,
+    marginTop: 20,
+    marginBottom: 15,
+    maxWidth: 300,
+    fontWeight: "600",
+    color: 'black',
+    fontWeight: '600'
+  },
+  box: {
+    flex: 1,
     marginTop: 30,
     marginBottom: 15,
     maxWidth: 300,
@@ -52,6 +78,23 @@ const styles = StyleSheet.create({
   page: {
     paddingTop: 30,
     paddingHorizontal: 16,
+    backgroundColor: "white",
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
+  },
+  action: {
+    flex: 1,
+    display: 'flex',
+  },
+  tran: {
+    paddingHorizontal: 10
+  },
+  subheader: {
+    fontSize: 12,
+    marginTop: -10,
+    marginBottom: 10,
     backgroundColor: 'white',
     flex: 1,
   },

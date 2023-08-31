@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1
     },
-    price: {
+    amount: {
         fontWeight: '700',
         color: colors.black,
         fontSize: 40

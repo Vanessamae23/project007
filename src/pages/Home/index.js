@@ -1,19 +1,29 @@
+
 import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { getData } from '../../utils/localStorage'
-import { Card, Chip, Gap, Header, Transaction } from '../../components'
+import { Card, Chip, Gap, Header, Button, Transaction } from '../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { sampleTransactions } from '../History'
+import { useListenForBalance } from '../../config/Firebase';
 
 export default function Home({ navigation }) {
   const [username, setUsername] = useState('')
   const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
     getData('user').then(res => {
       const data = res;
-      setUsername(data.fullName)
-    })
-  }, [])
+      setUsername(data.fullName);
+    });
+  }, []);
+
+  useListenForBalance();
+
+  const handleTopUp = () => {};
+
+  const handleTransfer = () => {};
+
   return (
     <View style={styles.page}>
       <View style={styles.box1}>
@@ -41,10 +51,9 @@ export default function Home({ navigation }) {
             <Transaction key={index} {...transaction} />
           ))}
         </ScrollView>
-
       </View>
-    </View>
-  )
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -59,6 +68,12 @@ const styles = StyleSheet.create({
   },
   box: {
     flex: 1,
+    marginTop: 30,
+    marginBottom: 15,
+    maxWidth: 300,
+    fontWeight: '600',
+    color: 'black',
+    fontWeight: '600',
   },
   page: {
     paddingTop: 30,
@@ -80,5 +95,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: -10,
     marginBottom: 10,
+    backgroundColor: 'white',
+    flex: 1,
   },
-})
+});

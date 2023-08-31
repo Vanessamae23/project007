@@ -1,39 +1,46 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { colors, useForm } from '../../utils'
 import { Button, Gap, Input } from '../../components'
+import { useSelector } from 'react-redux';
+import { dbSetBalance } from '../../config/Firebase';
 
 const TopUp = ({navigation}) => {
-    const [form, setForm] = useForm({
-        amount: 0,
-        pin: 0
-      });
-  return (
+    const [amount, setAmount] = useState(0);
+    const [pin, setPin] = useState(0);
+    const balance = useSelector(state => state.balance.value);
+    const handleTopup = useCallback(() => {
+        dbSetBalance(amount + balance);
+    }, [amount, balance]);
+    const handleNumber = useCallback(handler => (value) => {
+        handler(Number(value));
+    }, []);
+    return (
     <View style={styles.page}>
         <View style={styles.circle1} />
         <View style={styles.circle2} />
         <View style={styles.circle3} />
         <View style={styles.header}>
             <Text style={styles.balance}>Current Balance</Text>
-            <Text style={styles.amount}>S$12.00</Text>
+            <Text style={styles.price}>S${balance}</Text>
         </View>
         <View style={styles.container}>
             <Text style={styles.head}>Top Up</Text>
             <Gap height={20} />
             <View style={{ width: '100%' }}>
-                <Input fullWidth={true} onNumber label="Amount"  />
+                <Input fullWidth={true} onNumber onChangeText={handleNumber(setAmount)} label="Amount"  />
             </View>
             <Gap height={20} />
             <View style={{ width: '100%' }}>
-                <Input secureTextEntry={true} fullWidth={true} onNumber label="Pin Number"  />
+                <Input secureTextEntry={true} fullWidth={true} onNumber={handleNumber(setPin)} label="Pin Number"  />
             </View>
             <Gap height={50} />
-            <Button textColor={colors.black} color={colors.secondary} text="Top Up"></Button>
+            <Button textColor={colors.black} color={colors.secondary} onPress={handleTopup} text="Top Up"></Button>
             <Gap height={20} />
             <Button textColor={colors.black} color={colors.secondary} onPress={() => navigation.goBack()} text="Back"></Button>
         </View>
     </View>
-  )
+    )
 }
 
 export default TopUp

@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useState, useCallback, useEffect } from 'react'
-import { colors, useForm } from '../../utils'
+import { colors, showSuccess, useForm } from '../../utils'
 import { Button, Gap, Input } from '../../components'
 import { useSelector } from 'react-redux';
 import { setBalance } from '../../redux/balance-slice';
 import { useDispatch } from 'react-redux'
+import { showMessage } from 'react-native-flash-message';
 
 const TopUp = ({navigation}) => {
     const [amount, setAmount] = useState(0);
@@ -34,6 +35,7 @@ const TopUp = ({navigation}) => {
                 }),
             }).then(resp => {
                 let final = balance + amount;
+                showSuccess("Added S$" + amount + " to your account");
               dispatch(setBalance(final));
             })
         })

@@ -1,27 +1,53 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { colors, useForm } from '../../utils'
 import { Button, Gap, Input } from '../../components'
 import { useSelector } from 'react-redux';
+import { setBalance } from '../../redux/balance-slice';
+import { useDispatch } from 'react-redux'
 
 const TopUp = ({navigation}) => {
     const [amount, setAmount] = useState(0);
     const [pin, setPin] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
     const balance = useSelector(state => state.balance.value);
     const handleTopup = useCallback(() => {
-        fetch('http://10.0.2.2:3000/payments/topup', {
+        fetch('http://10.0.2.2:3000/payments/intents', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 amount: amount,
+                payment_method_types: ['card']
             }),
         })
+        .then(res => {
+            fetch('http://10.0.2.2:3000/payments/balance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                }),
+            }).then(resp => {
+                let final = balance + amount;
+              dispatch(setBalance(final));
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+
     }, [amount]);
     const handleNumber = useCallback(handler => (value) => {
         handler(Number(value));
     }, []);
+    useEffect(() => {
+
+    }, [loading])
     return (
     <View style={styles.page}>
         <View style={styles.circle1} />

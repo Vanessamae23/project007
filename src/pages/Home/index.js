@@ -77,8 +77,6 @@ const styles = StyleSheet.create({
   box: {
     flex: 1,
     marginTop: 30,
-    marginBottom: 15,
-    maxWidth: 300,
     fontWeight: '600',
     color: 'black',
     fontWeight: '600',

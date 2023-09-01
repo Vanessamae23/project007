@@ -1,15 +1,22 @@
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {getData} from '../../utils/localStorage';
+import {Card, Chip, Gap, Header, Button, Transaction} from '../../components';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {sampleTransactions} from '../History';
+import {setBalance} from '../../redux/balance-slice';
+import {useDispatch} from 'react-redux';
+import Config from 'react-native-config';
 
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { getData } from '../../utils/localStorage'
-import { Card, Chip, Gap, Header, Button, Transaction } from '../../components'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { sampleTransactions } from '../History'
-import { setBalance } from '../../redux/balance-slice';
-import { useDispatch } from 'react-redux'
-
-export default function Home({ navigation }) {
-  const [username, setUsername] = useState('')
+export default function Home({navigation}) {
+  const [username, setUsername] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
 
@@ -21,7 +28,7 @@ export default function Home({ navigation }) {
   }, []);
 
   useEffect(() => {
-    fetch('http://10.0.2.2:3000/payments/balance')
+    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`)
       .then(res => res.json())
       .then(res => {
         dispatch(setBalance(res.balance));
@@ -35,23 +42,45 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.page}>
       <View style={styles.box1}>
-        <Header navigation={navigation} onPress={() => setModalVisible(!modalVisible)} modalVisible={modalVisible} title="Good day," subtitle={username} />
+        <Header
+          navigation={navigation}
+          onPress={() => setModalVisible(!modalVisible)}
+          modalVisible={modalVisible}
+          title="Good day,"
+          subtitle={username}
+        />
         <Card name={username} />
       </View>
       <View style={styles.box}>
         <Text style={styles.welcome}>Actions</Text>
-        <ScrollView contentContainerStyle={{
-          justifyContent: 'space-around',
-          flex: 1
-        }} horizontal={true} style={styles.action}>
-          <Chip onPress={() => navigation.navigate("TopUp")} type="Top up" title="Top Up" />
-          <Chip type="Transfer" title="Transfer" onPress={() => navigation.navigate("Transfer")} />
-          <Chip title="Withdraw" onPress={() => navigation.navigate("Withdraw")} />
+        <ScrollView
+          contentContainerStyle={{
+            justifyContent: 'space-around',
+            flex: 1,
+          }}
+          horizontal={true}
+          style={styles.action}>
+          <Chip
+            onPress={() => navigation.navigate('TopUp')}
+            type="Top up"
+            title="Top Up"
+          />
+          <Chip
+            type="Transfer"
+            title="Transfer"
+            onPress={() => navigation.navigate('Transfer')}
+          />
+          <Chip
+            title="Withdraw"
+            onPress={() => navigation.navigate('Withdraw')}
+          />
         </ScrollView>
       </View>
       <View style={styles.box}>
         <Text style={styles.welcome}>Latest Transactions</Text>
-        <Text style={styles.subheader} onPress={() => navigation.navigate("History")}>
+        <Text
+          style={styles.subheader}
+          onPress={() => navigation.navigate('History')}>
           View All Transactions
         </Text>
         <ScrollView style={styles.tran}>
@@ -70,9 +99,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 15,
     maxWidth: 300,
-    fontWeight: "600",
+    fontWeight: '600',
     color: 'black',
-    fontWeight: '600'
+    fontWeight: '600',
   },
   box: {
     flex: 1,
@@ -84,18 +113,18 @@ const styles = StyleSheet.create({
   page: {
     paddingTop: 30,
     paddingHorizontal: 16,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    height: '100%'
+    height: '100%',
   },
   action: {
     flex: 1,
     display: 'flex',
   },
   tran: {
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   subheader: {
     fontSize: 12,

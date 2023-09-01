@@ -1,65 +1,47 @@
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 import React, {useState} from 'react'
-import { Header, Gap, Input, Button } from '../../components'
+import { Gap, Input, Button } from '../../components'
 import { useForm } from '../../utils'
 import { storeData } from '../../utils/localStorage'
-import { auth, db } from '../../config/Firebase';
-import { getDatabase, ref, set } from "firebase/database";
-import { showError, colors } from '../../utils';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { showMessage } from 'react-native-flash-message'
+import { showError, showSuccess, colors } from '../../utils';
 
 const Register = ({navigation}) => {
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useForm({
-        fullName: '',
-        email: '',
-        password: '',
-      });
-      const onContinue = () => {
-        setLoading(true);
-        createUserWithEmailAndPassword(auth, form.email, form.password)
-          .then(userCredential => {
-            // Signed in
-            setLoading(false);
-            var user = userCredential.user;
+      fullName: '',
+      email: '',
+      password: '',
+    });
+    const onContinue = useCallback(() => {
+      setLoading(true);
+      fetch('http://10.0.2.2:3000/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+          fullName: form.fullName,
+        }),
+      })
+        .then(res => res.json())
+        .then(res => {
+          if (res.message === 'success') {
             const data = {
               fullName: form.fullName,
               email: form.email,
-              uid: user.uid,
             };
-            // set is to keep the data
-            const database = getDatabase();
-            const userRef = ref(database, 'users/' + user.uid + '/');
-
-            // Save user data to the database
-            set(userRef, data);
             storeData('user', data);
-            
-            navigation.navigate('Home', data);
-
             setForm('reset');
-            
-            showMessage({
-              message: "Successfully created",
-              type: 'default',
-              backgroundColor: colors.success,
-              color: colors.white,
-            });
-          })
-          .catch(error => {
-            setLoading(false);
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            showMessage({
-              message: errorMessage,
-              type: 'default',
-              backgroundColor: colors.error,
-              color: colors.white,
-            });
-            // ..
-          });
-      };
+            navigation.navigate('Home', data);
+            showSuccess("Successfully created!");
+          } else {
+            showError(res.message)
+          }
+        });
+    }, [form]);
+
     return (
         
         <ScrollView style={styles.container} contentContainerStyle={{ flex: 1 }}>

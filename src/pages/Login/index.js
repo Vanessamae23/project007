@@ -1,9 +1,6 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { auth } from '../../config/Firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { getDatabase, ref, get, onValue } from "firebase/database";
 import { storeData } from '../../utils/localStorage'
 import { colors, showError, useForm } from '../../utils'
 import { Button, Gap, Input } from '../../components'
@@ -15,21 +12,24 @@ const Login = ({navigation}) => {
         password: ''
     })
 
-    const login = () => {
-        signInWithEmailAndPassword(auth, form.email, form.password).then(res => {
-            const database = getDatabase();
-            const userRef = ref(database, 'users/' + res.user.uid + '/');
-            onValue(userRef, (snapshot) => {
-                const data = snapshot.val()
-                if (data) {
-                    storeData('user', data);
-                    navigation.replace('Home')
+    const login = useCallback(() => {
+        fetch('http://10.0.2.2:3000/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(form),
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.message == 'success') {
+                    storeData('user', res);
+                    navigation.replace('Home');
+                } else {
+                    showError('Wrong username or password!');
                 }
             })
-        }).catch(e => {
-            showError(e.message)
-        })
-    }
+    }, [form]);
 
   return (
     <View style={styles.page}>

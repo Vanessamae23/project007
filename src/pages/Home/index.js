@@ -5,11 +5,13 @@ import { getData } from '../../utils/localStorage'
 import { Card, Chip, Gap, Header, Button, Transaction } from '../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { sampleTransactions } from '../History'
-import { useListenForBalance } from '../../config/Firebase';
+import { setBalance } from '../../redux/balance-slice';
+import { useDispatch } from 'react-redux'
 
 export default function Home({ navigation }) {
   const [username, setUsername] = useState('')
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getData('user').then(res => {
@@ -18,7 +20,13 @@ export default function Home({ navigation }) {
     });
   }, []);
 
-  useListenForBalance();
+  useEffect(() => {
+    fetch('http://10.0.2.2:3000/payments/balance')
+      .then(res => res.json())
+      .then(res => {
+        dispatch(setBalance(res.balance));
+      });
+  }, []);
 
   const handleTopUp = () => {};
 
@@ -52,7 +60,7 @@ export default function Home({ navigation }) {
           ))}
         </ScrollView>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

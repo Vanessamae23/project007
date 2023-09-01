@@ -3,15 +3,22 @@ import React, { useState, useCallback } from 'react'
 import { colors, useForm } from '../../utils'
 import { Button, Gap, Input } from '../../components'
 import { useSelector } from 'react-redux';
-import { dbSetBalance } from '../../config/Firebase';
 
 const TopUp = ({navigation}) => {
     const [amount, setAmount] = useState(0);
     const [pin, setPin] = useState(0);
     const balance = useSelector(state => state.balance.value);
     const handleTopup = useCallback(() => {
-        dbSetBalance(amount + balance);
-    }, [amount, balance]);
+        fetch('http://10.0.2.2:3000/payments/topup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: amount,
+            }),
+        })
+    }, [amount]);
     const handleNumber = useCallback(handler => (value) => {
         handler(Number(value));
     }, []);

@@ -2,24 +2,20 @@ import { StyleSheet, Pressable, Text, View, Image, TouchableOpacity, Modal } fro
 import React, {useEffect} from 'react'
 import { ICMore, ICProfile } from '../../../assets'
 import { colors } from '../../../utils'
-import { getData } from '../../../utils/localStorage'
-import { auth } from '../../../config/Firebase'
-import { getAuth, signOut } from "firebase/auth";
-import { showMessage } from 'react-native-flash-message'
+import { showError, showSuccess } from '../../../utils'
 const Header = ({navigation, title, onPress, subtitle, modalVisible = true}) => {
 
   const logout = () => {
-    signOut(auth).then(() => {
-      console.log("ASSA")
-      navigation.replace('Opening')
-    }).catch(e => {
-      showMessage({
-        message: e.message,
-        type: 'default',
-        backgroundColor: colors.error,
-        color: colors.white
+    fetch('http://10.0.2.2:3000/auth/logout')
+      .then(res => res.json())
+      .then(res => {
+        if (res.message === 'success') {
+          showSuccess('Succesfully logged out!');
+          navigation.replace('Opening');
+        } else {
+          showError('Failed to log out!');
+        }
       })
-    })
   }
   return (
     <View style={styles.container}>

@@ -1,25 +1,21 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React, {useEffect} from 'react'
-import { auth } from '../../config/Firebase';
-import { onAuthStateChanged, getAuth } from 'firebase/auth'
 import { Logo } from '../../assets'
 import { colors } from '../../utils';
 
 const Opening = ({navigation}) => {
     useEffect(() => {
-      const logged = onAuthStateChanged(auth, (user) => {
-        setTimeout(() => {
-            if (user) {
-                navigation.replace('Home');
+      fetch('http://10.0.2.2:3000/auth/is-logged-in')
+        .then(res => res.json())
+        .then(res => {
+          setTimeout(() => {
+            if (res.status) {
+              navigation.replace('Home');
             } else {
-                navigation.replace('Login');
+              navigation.replace('Login');
             }
-        }, 2000);
-      })
-    
-      return () => {
-        logged()
-      }
+          }, 2000);
+        });
     }, [navigation])
     
   return (

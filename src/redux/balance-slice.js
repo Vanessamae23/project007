@@ -12,6 +12,6 @@ export const balanceSlice = createSlice({
     }
 })
 
-export const { topupBalance, setBalance } = balanceSlice.actions;
+export const { setBalance } = balanceSlice.actions;
 
 export default balanceSlice.reducer;

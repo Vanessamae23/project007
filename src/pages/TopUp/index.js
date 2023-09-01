@@ -5,7 +5,7 @@ import { Button, Gap, Input } from '../../components'
 import { useSelector } from 'react-redux';
 import { setBalance } from '../../redux/balance-slice';
 import { useDispatch } from 'react-redux'
-import { showMessage } from 'react-native-flash-message';
+import { CardField, useStripe } from '@stripe/stripe-react-native';
 
 const TopUp = ({navigation}) => {
     const [amount, setAmount] = useState(0);
@@ -14,6 +14,9 @@ const TopUp = ({navigation}) => {
     const dispatch = useDispatch();
     const balance = useSelector(state => state.balance.value);
     const handleTopup = useCallback(() => {
+        const billingDetails = {
+            email: 'email@stripe.com',
+        };
         fetch('http://10.0.2.2:3000/payments/intents', {
             method: 'POST',
             headers: {
@@ -21,6 +24,7 @@ const TopUp = ({navigation}) => {
             },
             body: JSON.stringify({
                 amount: amount,
+                billingDetails: billingDetails,
                 payment_method_types: ['card']
             }),
         })
@@ -35,7 +39,7 @@ const TopUp = ({navigation}) => {
                 }),
             }).then(resp => {
                 let final = balance + amount;
-                showSuccess("Added S$" + amount + " to your account");
+                showSuccess("Added S$" + (amount / 100) + " to your account");
               dispatch(setBalance(final));
             })
         })
@@ -68,6 +72,20 @@ const TopUp = ({navigation}) => {
             <Gap height={20} />
             <View style={{ width: '100%' }}>
                 <Input secureTextEntry={true} fullWidth={true} onNumber={handleNumber(setPin)} label="Pin Number"  />
+            </View>
+            <View >
+                <CardField
+                    style={{
+                        height: 30
+                    }}
+                    postalCodeEnabled={false}
+                    placeholder={{
+                    number: '4242 4242 4242 4242',
+                    }}
+                    onCardChange={(cardDetails) => {
+                    
+                    }}
+                />
             </View>
             <Gap height={50} />
             <Button textColor={colors.black} color={colors.secondary} onPress={handleTopup} text="Top Up"></Button>

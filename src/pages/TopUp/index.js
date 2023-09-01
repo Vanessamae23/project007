@@ -26,7 +26,7 @@ const TopUp = ({navigation}) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: amount,
+          amount: amount * 100,
           billingDetails: billingDetails,
           payment_method_types: ['card'],
         }),
@@ -41,12 +41,12 @@ const TopUp = ({navigation}) => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              amount: amount,
+              amount: amount * 100,
             }),
           },
         ).then(resp => {
           let final = balance + amount;
-          showSuccess('Added S$' + amount / 100 + ' to your account');
+          showSuccess('Added S$' + amount+ ' to your account');
           dispatch(setBalance(final));
         });
       })
@@ -90,6 +90,7 @@ const TopUp = ({navigation}) => {
             label="Pin Number"
           />
         </View>
+        <Gap height={20} />
         <View>
           <CardField
             style={{
@@ -102,7 +103,7 @@ const TopUp = ({navigation}) => {
             onCardChange={cardDetails => {}}
           />
         </View>
-        <Gap height={50} />
+        <Gap height={30} />
         <Button
           textColor={colors.black}
           color={colors.secondary}
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 30,
     paddingHorizontal: 30,
     width: '100%',
-    flex: 2,
+    flex: 3,
     display: 'flex',
     flexDirection: 'column',
   },

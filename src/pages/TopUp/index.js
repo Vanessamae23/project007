@@ -11,6 +11,7 @@ import Config from 'react-native-config';
 const TopUp = ({navigation}) => {
   const [otp, setOtp] = useState('');
   const [showOtpInput, setShowOtpInput] = useState(false);
+  const [referenceCode, setReferenceCode] = useState('');
   const [amount, setAmount] = useState(0);
   const [pin, setPin] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,20 @@ const TopUp = ({navigation}) => {
       headers: {
         'Content-Type': 'application/json',
       },
-    });
+    })
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error('Error sending OTP. Please try again.');
+        }
+      })
+      .then(data => {
+        setReferenceCode(data.message);
+      })
+      .catch(error => {
+        Alert.alert('Error', error.message);
+      });
   };
 
   const processPayment = () => {
@@ -67,7 +81,7 @@ const TopUp = ({navigation}) => {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   const handleOtpSubmit = useCallback(() => {
     fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/email/verify`, {
@@ -91,6 +105,10 @@ const TopUp = ({navigation}) => {
   }, [otp]);
 
   const handleTopup = useCallback(() => {
+    if (amount == 0) {
+      Alert.alert('Error', 'Invalid amount.');
+      return;
+    }
     if (amount > 1000) {
       handleHighTopUp();
       return;
@@ -103,7 +121,7 @@ const TopUp = ({navigation}) => {
     },
     [],
   );
-  useEffect(() => {}, [loading]);
+  useEffect(() => {}, [loading, referenceCode]);
   return (
     <View style={styles.page}>
       <View style={styles.circle1} />
@@ -165,8 +183,10 @@ const TopUp = ({navigation}) => {
         <View style={styles.container}>
           <Text style={styles.head}>Enter OTP</Text>
           <Gap height={5} />
-          <Text style={styles.subhead}>OTP has been already sent.</Text>
-          <Text style={styles.subhead}>Please check your email.</Text>
+          <Text style={styles.subhead}>OTP has been already sent</Text>
+          <Text style={styles.subhead}>Please check your email</Text>
+          <Gap height={5} />
+          <Text style={styles.subsubhead}>Reference Code {referenceCode}</Text>
           <Gap height={20} />
           <View style={{width: '100%'}}>
             <Input
@@ -183,6 +203,19 @@ const TopUp = ({navigation}) => {
             color={colors.secondary}
             onPress={handleOtpSubmit}
           />
+          <Gap height={20} />
+          <Button
+            text="Resend OTP"
+            textColor={colors.black}
+            color={colors.secondary}
+            onPress={handleHighTopUp}
+          />
+          <Gap height={20} />
+          <Button
+            textColor={colors.black}
+            color={colors.secondary}
+            onPress={() => setShowOtpInput(false)}
+            text="Back"></Button>
         </View>
       )}
     </View>
@@ -211,6 +244,12 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: '300',
+    textAlign: 'center',
+  },
+  subsubhead: {
+    color: colors.white,
+    fontSize: 14,
+    fontWeight: '600',
     textAlign: 'center',
   },
   container: {

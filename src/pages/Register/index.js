@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {Gap, Input, Button} from '../../components';
 import {useForm} from '../../utils';
 import {storeData} from '../../utils/localStorage';

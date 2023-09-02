@@ -1,26 +1,31 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { Opening, Login, Register, Home, TopUp, Transfer, TransferAmount, Withdraw, History } from '../pages';
+import { Opening, Login, Register, Home, TopUp, Transfer, TransferAmount, Withdraw, History, Profile } from '../pages';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { colors } from '../utils';
+import { SideBar } from '../components';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+
+// const MainApp = () => {
+//   return (
+//     <Tab.Navigator  screenOptions={{
+//       headerShown: false
+//     }} tabBar={props => <BottomNavigator {...props} />}>
+//       <Tab.Screen name="Home" component={Home}/>
+//       <Tab.Screen name="Profile" component={Home}/>
+//     </Tab.Navigator>
+//   )
+// }
 
 const MainApp = () => {
-  return (
-    <Tab.Navigator  screenOptions={{
-      headerShown: false
-    }} tabBar={props => <BottomNavigator {...props} />}>
-      <Tab.Screen name="Home" component={Home}/>
-      <Tab.Screen name="Profile" component={Home}/>
-    </Tab.Navigator>
-  )
-}
-
-const Router = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -76,5 +81,23 @@ const Router = () => {
     </Stack.Navigator>
   );
 };
+
+const Router = () => {
+  return (
+    <Drawer.Navigator 
+      drawerContent={props => <SideBar {...props} />} 
+      screenOptions={{
+        headerShown: false,
+        drawerActiveBackgroundColor: colors.primary,
+        drawerActiveTintColor: 'white',
+        drawerLabelStyle: {
+          fontSize: 15,
+        }
+      }}>
+      <Drawer.Screen name="Home" component={MainApp} />
+      <Drawer.Screen name="Profile" component={Profile} />
+    </Drawer.Navigator>
+  )
+}
 
 export default Router;

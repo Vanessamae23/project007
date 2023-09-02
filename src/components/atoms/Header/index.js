@@ -47,9 +47,9 @@ const Header = ({
           <Text style={styles.subtitle}>{subtitle}</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={onPress}>
-        <Image style={styles.image} source={ICMore} />
-        <Modal animationType="slide" visible={modalVisible}>
+      <TouchableOpacity onPress={() => navigation.openDrawer()}>
+        <Image style={styles.image} source={ICProfile} />
+        {/* <Modal animationType="slide" visible={modalVisible}>
           <View style={styles.centeredView}>
             <Text style={styles.modalText}>Profile</Text>
             <Text style={styles.modalText}>Settings</Text>
@@ -71,7 +71,7 @@ const Header = ({
               <Text style={styles.XText}>X</Text>
             </TouchableOpacity>
           </View>
-        </Modal>
+        </Modal> */}
       </TouchableOpacity>
     </View>
   );
@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
     marginLeft: -16,
   },
   image: {
-    height: 30,
-    width: 30,
+    height: 45,
+    width: 45,
   },
   centeredView: {
     top: 0,

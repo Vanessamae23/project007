@@ -7,6 +7,7 @@ import TopUp from './TopUp'
 import { Transfer, TransferAmount } from "./Transfer";
 import Withdraw from "./Withdraw";
 import History from "./History";
+import Profile from "./Profile";
 
-export { Home, Withdraw, Register, Opening, Login, TopUp, Transfer, TransferAmount, History };
+export { Home, Withdraw, Register, Opening, Login, TopUp, Transfer, TransferAmount, History, Profile };
 

@@ -7,6 +7,6 @@ import Input from "./Input";
 import Button from "./Button";
 import Chip from "./Chip";
 import Transaction from './Transaction';
+import SideBar from "./SideBar";
 
-
-export { TabItem, Transaction, Input, Button, BottomNavigator, Gap, Card, Header, Chip }
+export { TabItem, Transaction, Input, Button, BottomNavigator, Gap, Card, Header, Chip, SideBar }

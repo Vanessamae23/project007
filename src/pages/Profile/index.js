@@ -76,6 +76,7 @@ const Profile = ({navigation}) => {
             .then(res => {
                 if (res.message == 'success') {
                     dispatch(setUsername(res.fullName));
+                    storeData('user', res);
                     showSuccess('Profile updated successfully!')
                     navigation.navigate('Home');
                 } else {

@@ -3,14 +3,27 @@ import React, {useEffect} from 'react';
 import {Logo} from '../../assets';
 import {colors} from '../../utils';
 import Config from 'react-native-config';
+import { useDispatch } from 'react-redux';
+import { setUsername, setPhotoUrl, setEmail, setPhoneNumber } from '../../redux/profile-slice';
+import { getData } from '../../utils/localStorage';
+
 
 const Opening = ({navigation}) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/is-logged-in`)
       .then(res => res.json())
       .then(res => {
         setTimeout(() => {
           if (res.status) {
+            getData('user').then(() => {
+              const data = res;
+              dispatch(setUsername(data.fullName))
+              dispatch(setEmail(data.email))
+              dispatch(setPhoneNumber(data.phoneNumber))
+              dispatch(setPhotoUrl(data.photoUrl))
+            })
             navigation.replace('Home');
           } else {
             navigation.replace('Login');

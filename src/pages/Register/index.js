@@ -6,7 +6,7 @@ import {storeData} from '../../utils/localStorage';
 import {showError, showSuccess, colors} from '../../utils';
 import Config from 'react-native-config';
 import { useDispatch } from 'react-redux';
-import { setUsername, setPhotoUrl } from '../../redux/profile-slice'
+import { setUsername, setPhotoUrl, setEmail } from '../../redux/profile-slice'
 
 const Register = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -40,6 +40,7 @@ const Register = ({navigation}) => {
             email: form.email,
           };
           dispatch(setUsername(form.fullName));
+          dispatch(setEmail(form.email));
           storeData('user', data);
           setForm('reset');
           navigation.navigate('Home', data);

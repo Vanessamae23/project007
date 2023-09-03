@@ -8,7 +8,7 @@ export default function Card({name, wallet}) {
     return (
         <View style={styles.card}>
             <Text style={styles.name}>{name}</Text>
-            <Text  style={styles.number}>**** **** {(wallet.slice(8))}</Text>
+            <Text  style={styles.number}>**** **** {typeof(wallet) === 'string' ? (wallet.slice(8)) : ''}</Text>
             <Image style={styles.backgroundImage} source={TiktokLogo} ></Image>
             <View>
                 <Text style={styles.balance}>Current Balance :</Text>

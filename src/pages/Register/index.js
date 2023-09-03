@@ -12,6 +12,7 @@ const Register = ({navigation}) => {
     fullName: '',
     email: '',
     password: '',
+    pin: ''
   });
   
   const onContinue = useCallback(() => {
@@ -25,6 +26,7 @@ const Register = ({navigation}) => {
         email: form.email,
         password: form.password,
         fullName: form.fullName,
+        pin: form.pin
       }),
     })
       .then(res => res.json())
@@ -71,6 +73,14 @@ const Register = ({navigation}) => {
           value={form.password}
           onChangeText={value => setForm('password', value)}
           placeholder="Type your Password"
+          secureTextEntry={true}
+        />
+        <Gap height={16} />
+        <Input
+          label="Pin"
+          value={form.pin}
+          onChangeText={value => setForm('pin', value)}
+          placeholder="Type your Pin"
           secureTextEntry={true}
         />
         <Gap height={16} />

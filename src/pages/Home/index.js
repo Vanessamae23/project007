@@ -26,7 +26,6 @@ export default function Home({navigation}) {
       const data = res;
       setUsername(data.fullName);
       setWallet(data.walletId);
-      console.log(data)
     });
   }, []);
 

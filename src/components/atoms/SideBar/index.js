@@ -7,10 +7,10 @@ import { colors } from '../../../utils'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Config from 'react-native-config'
 import {showError, showSuccess} from '../../../utils';
-
+import { useNavigation } from '@react-navigation/native'
 const SideBar = (props) => {
     const [username, setUsername] = useState('');
-
+    const navigation = useNavigation();
     useEffect(() => {
         getData('user').then(res => {
           const data = res;
@@ -24,7 +24,7 @@ const SideBar = (props) => {
           .then(res => {
             if (res.message === 'success') {
               showSuccess('Succesfully logged out!');
-              props.navigation.navigate('Opening');
+              navigation.navigate('Opening');
             } else {
               showError('Failed to log out!');
             }

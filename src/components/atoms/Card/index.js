@@ -3,12 +3,12 @@ import React from 'react'
 import { TiktokLogo } from '../../../assets'
 import { useSelector } from 'react-redux';
 
-export default function Card({name}) {
+export default function Card({name, wallet}) {
     const balance = useSelector(state => state.balance.value);
     return (
         <View style={styles.card}>
             <Text style={styles.name}>{name}</Text>
-            <Text style={styles.number}>**** **** **** **00 9100</Text>
+            <Text  style={styles.number}>**** **** {(wallet.slice(8))}</Text>
             <Image style={styles.backgroundImage} source={TiktokLogo} ></Image>
             <View>
                 <Text style={styles.balance}>Current Balance :</Text>
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     },
     number: {
         fontSize: 20,
+        letterSpacing: 10,
         color: "white",
         marginTop: 20,
         paddingBottom: 20

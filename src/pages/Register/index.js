@@ -13,6 +13,7 @@ const Register = ({navigation}) => {
     email: '',
     password: '',
   });
+  
   const onContinue = useCallback(() => {
     setLoading(true);
     fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/register`, {
@@ -32,6 +33,7 @@ const Register = ({navigation}) => {
           const data = {
             fullName: form.fullName,
             email: form.email,
+            walletId: res.walletId
           };
           storeData('user', data);
           setForm('reset');

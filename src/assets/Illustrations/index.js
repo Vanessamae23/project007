@@ -9,5 +9,7 @@ import ICBack from './left-arrow.png'
 import ICEdit from './pen.png'
 import ICEye from './eye.png'
 import ICEyeOff from './hidden.png'
+import ICGo from './right-arrow.png'
+import ICLock from './padlock.png'
 
-export { TiktokLogo, Logo, ICTransfer, ICMore, ICTopUp, ICEye, ICEyeOff, ICEdit, ICProfile, ICLogout, ICBack }
+export { TiktokLogo, Logo, ICTransfer, ICMore, ICTopUp, ICEye, ICEyeOff, ICEdit, ICProfile, ICLogout, ICBack, ICGo, ICLock }

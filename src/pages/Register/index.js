@@ -5,6 +5,8 @@ import {useForm} from '../../utils';
 import {storeData} from '../../utils/localStorage';
 import {showError, showSuccess, colors} from '../../utils';
 import Config from 'react-native-config';
+import { useDispatch } from 'react-redux';
+import { setUsername, setPhotoUrl } from '../../redux/profile-slice'
 
 const Register = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -13,6 +15,10 @@ const Register = ({navigation}) => {
     email: '',
     password: '',
   });
+
+  const dispatch = useDispatch();
+
+
   const onContinue = useCallback(() => {
     setLoading(true);
     fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/register`, {
@@ -33,6 +39,7 @@ const Register = ({navigation}) => {
             fullName: form.fullName,
             email: form.email,
           };
+          dispatch(setUsername(form.fullName));
           storeData('user', data);
           setForm('reset');
           navigation.navigate('Home', data);

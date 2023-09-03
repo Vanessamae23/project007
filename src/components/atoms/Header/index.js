@@ -7,40 +7,22 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-import React, {useEffect} from 'react';
-import {ICMore, ICProfile} from '../../../assets';
+import React from 'react';
+import {ICProfile} from '../../../assets';
 import {colors} from '../../../utils';
-import {showError, showSuccess} from '../../../utils';
-import Config from 'react-native-config';
+import { useSelector } from 'react-redux';
 
 const Header = ({
   navigation,
   title,
-  onPress,
   subtitle,
-  modalVisible = true,
 }) => {
-  const logout = () => {
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/logout`)
-      .then(res => res.json())
-      .then(res => {
-        if (res.message === 'success') {
-          showSuccess('Succesfully logged out!');
-          navigation.replace('Opening');
-        } else {
-          showError('Failed to log out!');
-        }
-      });
-  };
+
+
+  const photoUrl = useSelector(state => state.profile.photoUrl);
+
   return (
     <View style={styles.container}>
-      {/* {onBack &&
-        <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
-        <View style={styles.icon}>
-          <Back />
-        </View>
-      </TouchableOpacity>
-      } */}
       <View>
         <View>
           <Text style={styles.title}>{title}</Text>
@@ -48,30 +30,9 @@ const Header = ({
         </View>
       </View>
       <TouchableOpacity onPress={() => navigation.openDrawer()}>
-        <Image style={styles.image} source={ICProfile} />
-        {/* <Modal animationType="slide" visible={modalVisible}>
-          <View style={styles.centeredView}>
-            <Text style={styles.modalText}>Profile</Text>
-            <Text style={styles.modalText}>Settings</Text>
-            <Text onPress={() => logout()} style={styles.modalText}>
-              Logout
-            </Text>
-            <TouchableOpacity
-              onPress={onPress}
-              style={{
-                borderRadius: 30,
-                backgroundColor: colors.primary,
-                width: 60,
-                height: 60,
-                display: 'flex',
-
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={styles.XText}>X</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal> */}
+        {photoUrl != null 
+          ? <Image style={styles.image} source={{uri: photoUrl}} />
+          : <Image style={styles.image} source={ICProfile} />}
       </TouchableOpacity>
     </View>
   );
@@ -106,6 +67,9 @@ const styles = StyleSheet.create({
   image: {
     height: 45,
     width: 45,
+    borderRadius: 45 / 2,
+    borderWidth: 1,
+    borderColor: colors.black
   },
   centeredView: {
     top: 0,

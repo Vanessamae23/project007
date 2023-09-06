@@ -1,22 +1,16 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { getData } from '../../../utils/localStorage'
+import React from 'react'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { ICProfile, ICLogout } from '../../../assets'
 import { colors } from '../../../utils'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Config from 'react-native-config'
 import {showError, showSuccess} from '../../../utils';
+import { useSelector } from 'react-redux'
 
 const SideBar = (props) => {
-    const [username, setUsername] = useState('');
-
-    useEffect(() => {
-        getData('user').then(res => {
-          const data = res;
-          setUsername(data.fullName);
-        });
-      }, []);
+    const username = useSelector(state => state.profile.fullName);
+    const photoUrl = useSelector(state => state.profile.photoUrl);
 
     const logout = () => {
         fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/logout`)
@@ -34,7 +28,9 @@ const SideBar = (props) => {
   return (
     <View style={{flex: 1, paddingHorizontal: 5, paddingTop: 20}}>
         <View style={styles.profileBG}>
-            <Image source={ICProfile} style={styles.user} />
+            {photoUrl != null 
+                ? <Image source={{uri: photoUrl}} style={styles.user} />
+                : <Image source={ICProfile} style={styles.user} />}
             <Text style={styles.name}>{username}</Text>
         </View>
         <View style={{paddingTop: 5}}>
@@ -56,7 +52,10 @@ const SideBar = (props) => {
 const styles = StyleSheet.create({
     user: {
         width: 70,
-        height: 70
+        height: 70,
+        borderRadius: 70 / 2,
+        borderColor: colors.black,
+        borderWidth: 1
     },
     profileBG: {
        height: 150,

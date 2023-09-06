@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { Opening, Login, Register, Home, TopUp, Transfer, TransferAmount, Withdraw, History, Profile } from '../pages';
+import { Opening, Login, Register, Home, TopUp, Transfer, TransferAmount, Withdraw, History, Profile, Email, ResetPassword } from '../pages';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -9,6 +9,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { colors } from '../utils';
 import { SideBar } from '../components';
 import { useNavigation } from '@react-navigation/native';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -28,11 +29,11 @@ const Drawer = createDrawerNavigator();
 const MainApp = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Opening"
         component={Opening}
         options={{headerShown: false}}
-      /> 
+      />  */}
       <Stack.Screen
         name="Login"
         component={Login}
@@ -78,6 +79,16 @@ const MainApp = () => {
         component={History}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="Change email"
+        component={Email}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Change password"
+        component={ResetPassword}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
@@ -94,7 +105,7 @@ const Router = () => {
           fontSize: 15,
         }
       }}>
-      <Drawer.Screen name="Home" component={MainApp} />
+      <Drawer.Screen name="Dashboard" component={MainApp} />
       <Drawer.Screen name="Profile" component={Profile} />
     </Drawer.Navigator>
   )

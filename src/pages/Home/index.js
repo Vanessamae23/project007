@@ -6,24 +6,24 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {getData} from '../../utils/localStorage';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Card, Chip, Gap, Header, Button, Transaction} from '../../components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {sampleTransactions} from '../History';
 import {setBalance} from '../../redux/balance-slice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Config from 'react-native-config';
 
 export default function Home({navigation}) {
-  const [username, setUsername] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const username = useSelector(state => state.profile.fullName);
+  const [wallet, setWallet] = useState(0);
 
   useEffect(() => {
     getData('user').then(res => {
       const data = res;
-      setUsername(data.fullName);
+      setWallet(data.walletId);
     });
   }, []);
 
@@ -49,7 +49,7 @@ export default function Home({navigation}) {
           title="Good day,"
           subtitle={username}
         />
-        <Card name={username} />
+        <Card name={username} wallet={wallet}/>
       </View>
       <View style={styles.box}>
         <Text style={styles.welcome}>Actions</Text>
@@ -59,7 +59,7 @@ export default function Home({navigation}) {
             flex: 1,
           }}
           horizontal={true}
-          style={styles.action}>
+          >
           <Chip
             onPress={() => navigation.navigate('TopUp')}
             type="Top up"
@@ -96,7 +96,7 @@ export default function Home({navigation}) {
 const styles = StyleSheet.create({
   welcome: {
     fontSize: 22,
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 15,
     maxWidth: 300,
     fontWeight: '600',
@@ -105,10 +105,8 @@ const styles = StyleSheet.create({
   },
   box: {
     flex: 1,
-    marginTop: 30,
     fontWeight: '600',
     color: 'black',
-    fontWeight: '600',
   },
   page: {
     paddingTop: 30,
@@ -120,8 +118,9 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   action: {
-    flex: 1,
-    display: 'flex',
+    maxHeight: 'min-content',
+    height: 20,
+    backgroundColor: 'grey'
   },
   tran: {
     paddingHorizontal: 10,

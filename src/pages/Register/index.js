@@ -5,6 +5,8 @@ import {useForm} from '../../utils';
 import {storeData} from '../../utils/localStorage';
 import {showError, showSuccess, colors} from '../../utils';
 import Config from 'react-native-config';
+import { useDispatch } from 'react-redux';
+import { setUsername, setPhotoUrl, setEmail } from '../../redux/profile-slice'
 
 const Register = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -12,7 +14,11 @@ const Register = ({navigation}) => {
     fullName: '',
     email: '',
     password: '',
+    pin: ''
   });
+
+  const dispatch = useDispatch();
+
   const onContinue = useCallback(() => {
     setLoading(true);
     fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/register`, {
@@ -24,6 +30,7 @@ const Register = ({navigation}) => {
         email: form.email,
         password: form.password,
         fullName: form.fullName,
+        pin: form.pin
       }),
     })
       .then(res => res.json())
@@ -32,7 +39,10 @@ const Register = ({navigation}) => {
           const data = {
             fullName: form.fullName,
             email: form.email,
+            walletId: res.walletId
           };
+          dispatch(setUsername(form.fullName));
+          dispatch(setEmail(form.email));
           storeData('user', data);
           setForm('reset');
           navigation.navigate('Home', data);
@@ -69,6 +79,14 @@ const Register = ({navigation}) => {
           value={form.password}
           onChangeText={value => setForm('password', value)}
           placeholder="Type your Password"
+          secureTextEntry={true}
+        />
+        <Gap height={16} />
+        <Input
+          label="Pin"
+          value={form.pin}
+          onChangeText={value => setForm('pin', value)}
+          placeholder="Type your Pin"
           secureTextEntry={true}
         />
         <Gap height={16} />

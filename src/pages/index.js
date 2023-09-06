@@ -8,6 +8,7 @@ import { Transfer, TransferAmount } from "./Transfer";
 import Withdraw from "./Withdraw";
 import History from "./History";
 import Profile from "./Profile";
+import Email from "./Email";
+import ResetPassword from "./ResetPassword";
 
-export { Home, Withdraw, Register, Opening, Login, TopUp, Transfer, TransferAmount, History, Profile };
-
+export { Home, Withdraw, Register, Opening, Login, TopUp, Transfer, TransferAmount, History, Profile, Email, ResetPassword };

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {colors, showSuccess, useForm} from '../../utils';
+import {colors, showError, showSuccess, useForm} from '../../utils';
 import {Button, Gap, Input} from '../../components';
 import {Contactlist} from '../../components/atoms/Contact';
 import Config from 'react-native-config';
@@ -37,28 +37,31 @@ const initialContacts = [
 
 const Transfer = ({navigation}) => {
   const [query, setQuery] = useState('');
-  const [contacts, setContacts] = useState(initialContacts);
+  const [contacts, setContacts] = useState([]);
+  const [isQueryJustChanged, setIsQueryJustChanged] = useState(false);
+  const queryJustChangedTimer = useRef(null);
+  const [isSearching, setIsSearching] = useState(false);
   const balance = useSelector(state => state.balance.value);
   const dispatch = useDispatch();
 
-  const handleSearchContact = query => {
-    if (query.length > 0) {
-      const filteredContacts = initialContacts.filter(
-        c =>
-          c.name.toLowerCase().includes(query.toLowerCase()) ||
-          c.number.includes(query),
-      );
-      setContacts(filteredContacts);
-    } else {
-      setContacts(initialContacts);
+  const handleSearchContact = useCallback(query => {
+    if (!isSearching && query.length >= 2) {
+      fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/find-users?name=${query}`)
+        .then(res => res.json())
+        .then(res => {
+          setIsSearching(false);
+          setContacts(res.users);
+        })
+        .catch(() => {
+          showError("failed to find users");
+        });
     }
-  };
+  }, [isSearching]);
 
   useEffect(() => {
     fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`)
       .then(res => res.json())
       .then(res => {
-        console.log(res)
         dispatch(setBalance(res.balance));
       });
   }, [navigation]);
@@ -69,8 +72,10 @@ const Transfer = ({navigation}) => {
 
   // Use effect to filter contacts when query changes
   useEffect(() => {
-    handleSearchContact(query);
-  }, [query]);
+    if (!isQueryJustChanged) {
+      handleSearchContact(query);
+    }
+  }, [query, isQueryJustChanged]);
 
   const isValidPhoneNumber = number => {
     return number.length <= 8 && /^\d+$/.test(number);
@@ -89,7 +94,14 @@ const Transfer = ({navigation}) => {
         <TextInput
           style={styles.search}
           placeholder="Search name or enter number"
-          onChangeText={setQuery}
+          onChangeText={text => {
+            setQuery(text);
+            setIsQueryJustChanged(true);
+            clearTimeout(queryJustChangedTimer.current);
+            queryJustChangedTimer.current = setTimeout(() => {
+              setIsQueryJustChanged(false);
+            }, 1000);
+          }}
         />
         {contacts.length > 0 ? (
           <ScrollView>
@@ -129,20 +141,45 @@ const TransferAmount = ({route, navigation}) => {
   const [amount, setAmount] = useState(0);
   const [pin, setPin] = useState(0);
   const balance = useSelector(state => state.balance.value);
+  const dispatch = useDispatch();
 
-  const handleTransfer = () => {
+  const handleTransfer = useCallback(() => {
     if (!amount || parseFloat(amount) <= 0) {
       Alert.alert('Invalid Amount', 'Please enter a valid transfer amount.');
       return;
     }
 
-    
-    
-
     // Implement the transfer logic here, for now, we'll just go back
-    navigation.goBack();
-    showSuccess('Success', `You've transferred ${amount} to ${contact.name}`);
-  };
+    fetch(
+      `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transfer`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          uid: contact.uid,
+          amount: amount,
+        }),
+      }
+    )
+      .then(res => res.json())
+      .then(res => {
+        if (res.message === 'success') {
+          navigation.goBack();
+          showSuccess(`Success! You've transferred ${amount} to ${contact.name}`);
+        } else {
+          showError('Failed to transfer');
+        }
+      })
+      .then(() => {
+        fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`)
+          .then(res => res.json())
+          .then(res => {
+            dispatch(setBalance(res.balance));
+          });
+      });
+  }, [amount, contact]);
   const handleNumber = useCallback(
     handler => value => {
       handler(Number(value));

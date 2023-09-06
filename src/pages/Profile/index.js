@@ -1,28 +1,123 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { getData } from '../../utils/localStorage'
-import React, { useEffect, useState } from 'react'
-import { colors } from '../../utils'
-import { ICBack, ICEdit, ICEye, ICProfile } from '../../assets'
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, Alert } from 'react-native'
+import { storeData } from '../../utils/localStorage'
+import React, { useCallback, useEffect, useState } from 'react'
+import { colors, showError, showSuccess, useForm } from '../../utils'
+import { ICBack, ICEdit, ICEye, ICProfile, ICGo, ICLock } from '../../assets'
 import { TextInput } from 'react-native-gesture-handler'
 import { Button } from '../../components'
 import togglePasswordVisibility from '../../components/atoms/Password'
+import * as ImagePicker from "react-native-image-picker"
+import Config from 'react-native-config'
+import { useFocusEffect } from '@react-navigation/native'
+import { setUsername, setPhotoUrl, setPhoneNumber } from '../../redux/profile-slice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Profile = ({navigation}) => {
     const { isPasswordSecure, rightIcon, handlePasswordVisibility } = togglePasswordVisibility();
-    const [username, setUsername] = useState('');
+    const email = useSelector(state => state.profile.email);
+    const phoneNumber = useSelector(state => state.profile.phoneNumber);
+    const username = useSelector(state => state.profile.fullName);
+    const dispatch = useDispatch();
+    const [uri, setUri] = useState(null);
+    
+    const uploadImage = async () => {
+        const options = {
+            title: 'Select Avatar',
+          };
+       
+        await ImagePicker.launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (response.error) {
+              console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+              console.log('User tapped custom button: ', response.customButton);
+            } else {
+                var path = response.assets[0].uri;
+                setUri(path);
+        }})
+    }
 
-    useEffect(() => {
-        getData('user').then(res => {
-          const data = res;
-          setUsername(data.fullName);
-        });
-      }, []);
+    const discardChanges = () => {
+        navigation.openDrawer()
+    }
+
+    const discardChangesAlert = () => {
+        Alert.alert(  
+            'Are you sure?',  
+            'This action will discard the changes you made to name and phone number!',  
+            [  
+                {  
+                    text: 'Cancel',  
+                    onPress: () => console.log('Cancel Pressed'),  
+                    style: 'cancel',  
+                },  
+                {text: 'OK', onPress: () => discardChanges()},  
+            ]  
+        );  
+    }
+    
+    const handleUpdate = () => {
+        if (username == '' || email == '' || phoneNumber == '') {
+            showError('Field(s) cannot be empty!')
+        } else if (uri == null) {
+            fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/profile/saveWithoutImage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullName: username,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                })
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.message == 'success') {
+                    dispatch(setUsername(res.fullName));
+                    storeData('user', res);
+                    showSuccess('Profile updated successfully!')
+                    navigation.navigate('Home');
+                } else {
+                    showError('Profile update failed!')
+                }
+            })
+        } else {
+            fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/profile/saveWithImage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullName: username,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    uri: uri
+                })
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.message == 'success') {
+                    dispatch(setUsername(res.fullName));
+                    dispatch(setPhotoUrl(res.photoUrl));
+                    //storeData('user', res);
+                    showSuccess('Image uploaded successfully!')
+                    navigation.navigate('Home');
+                } else {
+                    showError('Image upload failed!')
+                }
+            })
+        }
+
+        
+    }
 
   return (
     <View style={styles.container}>
 
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+        <TouchableOpacity onPress={discardChangesAlert}>
             <Image source={ICBack} style={styles.backButton}/>
         </TouchableOpacity>
         <View style={styles.headerTitleBG}>
@@ -31,8 +126,13 @@ const Profile = ({navigation}) => {
       </View>
 
       <View style={styles.imageBG}>
-        <Image source={ICProfile} style={styles.user}/>
-        <TouchableOpacity>
+        {uri != null
+            ? <Image source={{uri: uri}} style={styles.user} />
+            : <Image source={ICProfile} style={styles.user} />     
+        }
+        
+        
+        <TouchableOpacity onPress={uploadImage}>
             <View style={styles.editBG}>
                 <Image source={ICEdit} style={styles.edit}/>
             </View>
@@ -43,9 +143,10 @@ const Profile = ({navigation}) => {
         <View>
             <Text style={{opacity: 0.5}}>Name</Text>
                 <TextInput 
-                    placeholder="Change name" 
+                    placeholder="Full name (required)" 
                     defaultValue={username} 
                     style={styles.subtitle}
+                    onChangeText={value => dispatch(setUsername(value))}
                 />
                 
         </View>
@@ -53,16 +154,43 @@ const Profile = ({navigation}) => {
 
       <View style={{padding: 10}}>
         <View>
-            <Text style={{opacity: 0.5}}>Email</Text>
+            <Text style={{opacity: 0.5}}>Phone Number</Text>
                 <TextInput 
-                    placeholder="Change email" 
-                    defaultValue='test1@gmail.com' 
+                    placeholder="Phone number (required)" 
+                    defaultValue={phoneNumber}
                     style={styles.subtitle}
+                    onChangeText={value => dispatch(setPhoneNumber(value))}
                 />
         </View>
       </View>
 
       <View style={{padding: 10}}>
+        <View>
+            <Text style={{opacity: 0.5}}>Email</Text>
+                <TouchableOpacity style={styles.subtitle} onPress={() => navigation.navigate('Change email')}>
+                    <Text style={{fontSize: 16}}>{email}</Text>
+                    <View style={styles.arrow}>
+                        <Image source={ICGo} style={{width: 15, height: 15}} />
+                    </View>
+                    
+                </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={{padding: 10}}>
+        <View>
+            <Text style={{opacity: 0.5}}>Password</Text>
+                <TouchableOpacity 
+                    style={{flexDirection: 'row'}}
+                    onPress={() => navigation.navigate('Change password')}>
+                    <Image source={ICLock} style={{width: 15, height: 18, marginTop: 10, marginRight: 10, marginLeft: 2}}/>
+                    <Text style={{textDecorationLine: 'underline', ...styles.subtitle}}>Change password</Text>  
+                </TouchableOpacity>         
+        </View>        
+      </View>
+
+
+      {/* <View style={{padding: 10}}>
         <View>
             <Text style={{opacity: 0.5}}>Password</Text>
                 <TextInput 
@@ -83,21 +211,14 @@ const Profile = ({navigation}) => {
                         }}/>
                 </TouchableOpacity>         
         </View>        
-      </View>
-
+      </View> */}
+{/* 
       <View style={{padding: 10}}>
-        <View>
-            <Text style={{opacity: 0.5}}>Phone Number</Text>
-                <TextInput 
-                    placeholder="Change phone number" 
-                    defaultValue='830213' 
-                    style={styles.subtitle}
-                />
-        </View>
-      </View>
+        <Text style={{fontWeight: '500'}}>Change password</Text>
+      </View> */}
 
         <View style={{padding: 25}}>
-            <Button textColor={colors.blacksdk} color={colors.secondary} onPress={() => navigation.goBack()} text="Update"></Button>
+            <Button textColor={colors.blacksdk} color={colors.secondary} onPress={handleUpdate} text="Update"></Button>
         </View> 
     </View>
   )
@@ -140,6 +261,9 @@ const styles = StyleSheet.create({
     user: {
         width: 90,
         height: 90,
+        borderRadius: 90/2,
+        borderColor: colors.black,
+        borderWidth: 1
         
     },
     imageBG: {
@@ -158,7 +282,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         borderBottomWidth: 1,
         borderColor: colors.primary,
-        paddingVertical: 10
+        paddingVertical: 10,
+        flexDirection: 'row'
     },
     edit: {
         width: 15,
@@ -168,13 +293,20 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         borderColor: colors.black,
-        borderWidth: 3,
+        borderWidth: 1,
         borderRadius: 30 / 2,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: -30,
         left: 30,
         backgroundColor: 'white'
+    },
+    arrow: {
+        justifyContent: 'end',
+        marginLeft: 312,
+        marginTop: 10,
+        position: 'absolute'
+        
     }
 })
 

@@ -6,25 +6,23 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {getData} from '../../utils/localStorage';
+import React, {useEffect, useState, useCallback} from 'react';
 import {Card, Chip, Gap, Header, Button, Transaction} from '../../components';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {sampleTransactions} from '../History';
 import {setBalance} from '../../redux/balance-slice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Config from 'react-native-config';
 
 export default function Home({navigation}) {
-  const [username, setUsername] = useState('');
-  const [wallet, setWallet] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const username = useSelector(state => state.profile.fullName);
+  const [wallet, setWallet] = useState(0);
 
   useEffect(() => {
     getData('user').then(res => {
       const data = res;
-      setUsername(data.fullName);
       setWallet(data.walletId);
     });
   }, []);

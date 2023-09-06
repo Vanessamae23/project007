@@ -7,9 +7,13 @@ import {setBalance} from '../../redux/balance-slice';
 import {useDispatch} from 'react-redux';
 import {CardField, useConfirmPayment, useStripe} from '@stripe/stripe-react-native';
 import Config from 'react-native-config';
+import { getData } from '../../utils/localStorage';
 
 const TopUp = ({navigation}) => {
   const [otp, setOtp] = useState('');
+  const [username, setUsername] = useState('');
+  const [wallet, setWallet] = useState(0);
+
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [referenceCode, setReferenceCode] = useState('');
   const [amount, setAmount] = useState(0);
@@ -20,6 +24,14 @@ const TopUp = ({navigation}) => {
   const [form, setForm] = useForm({
     pin: ''
   });
+
+  useEffect(() => {
+    getData('user').then(res => {
+      const data = res;
+      setUsername(data.email);
+      setWallet(data.walletId);
+    });
+  }, []);
   const balance = useSelector(state => state.balance.value);
 
   const handleHighTopUp = () => {
@@ -48,7 +60,7 @@ const TopUp = ({navigation}) => {
 
   const processPayment = () => {
     const billingDetails = {
-      email: 'email@stripe.com',
+      email: username,
     };
     fetch(
       `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/intents`,
@@ -81,14 +93,14 @@ const TopUp = ({navigation}) => {
       .then(res => {
         console.log(res)
         fetch(
-          `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`,
+          `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/topup`,
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              amount: amount * 100,
+              amount: amount,
             }),
           },
         ).then(resp => {
@@ -153,7 +165,7 @@ const TopUp = ({navigation}) => {
       Alert.alert('Error', 'Invalid amount.');
       return;
     }
-    if (amount > 1000) {
+    if (amount > 1000000000) {
       handleHighTopUp();
       return;
     }

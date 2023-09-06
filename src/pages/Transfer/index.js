@@ -8,10 +8,12 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import {useSelector} from 'react-redux';
-import {colors, useForm} from '../../utils';
+import {useDispatch, useSelector} from 'react-redux';
+import {colors, showSuccess, useForm} from '../../utils';
 import {Button, Gap, Input} from '../../components';
 import {Contactlist} from '../../components/atoms/Contact';
+import Config from 'react-native-config';
+import { setBalance } from '../../redux/balance-slice';
 
 // Sample contacts data
 const initialContacts = [
@@ -37,6 +39,7 @@ const Transfer = ({navigation}) => {
   const [query, setQuery] = useState('');
   const [contacts, setContacts] = useState(initialContacts);
   const balance = useSelector(state => state.balance.value);
+  const dispatch = useDispatch();
 
   const handleSearchContact = query => {
     if (query.length > 0) {
@@ -50,6 +53,15 @@ const Transfer = ({navigation}) => {
       setContacts(initialContacts);
     }
   };
+
+  useEffect(() => {
+    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`)
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        dispatch(setBalance(res.balance));
+      });
+  }, [navigation]);
 
   const handleContactPress = contact => {
     navigation.navigate('TransferAmount', {contact});
@@ -124,9 +136,12 @@ const TransferAmount = ({route, navigation}) => {
       return;
     }
 
+    
+    
+
     // Implement the transfer logic here, for now, we'll just go back
     navigation.goBack();
-    Alert.alert('Success', `You've transferred ${amount} to ${contact.name}`);
+    showSuccess('Success', `You've transferred ${amount} to ${contact.name}`);
   };
   const handleNumber = useCallback(
     handler => value => {
@@ -164,6 +179,7 @@ const TransferAmount = ({route, navigation}) => {
         <Button
           textColor={colors.black}
           color={colors.secondary}
+          onPress={handleTransfer}
           text="Transfer"></Button>
         <Gap height={20} />
         <Button

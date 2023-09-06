@@ -107,7 +107,7 @@ const TopUp = ({navigation}) => {
           let final = balance + amount;
           showSuccess('Added S$' + amount + ' to your account');
           dispatch(setBalance(final));
-          navigation.navigate('Home1');
+          navigation.navigate('Home');
         });
       })
       .catch(err => {

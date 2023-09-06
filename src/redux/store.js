@@ -21,10 +21,12 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import balanceReducer from './balance-slice';
+import profileReducer from './profile-slice';
 
 const store = configureStore({
     reducer: {
         balance: balanceReducer,
+        profile: profileReducer
     }
 });
 

@@ -5,7 +5,7 @@ import {Button, Gap, Input} from '../../components';
 import {useSelector} from 'react-redux';
 import {setBalance} from '../../redux/balance-slice';
 import {useDispatch} from 'react-redux';
-import {CardField, useStripe} from '@stripe/stripe-react-native';
+import {CardField, useConfirmPayment, useStripe} from '@stripe/stripe-react-native';
 import Config from 'react-native-config';
 
 const TopUp = ({navigation}) => {
@@ -14,6 +14,7 @@ const TopUp = ({navigation}) => {
   const [referenceCode, setReferenceCode] = useState('');
   const [amount, setAmount] = useState(0);
   const [pin, setPin] = useState('');
+  const { confirmPayment } = useConfirmPayment();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [form, setForm] = useForm({
@@ -60,11 +61,25 @@ const TopUp = ({navigation}) => {
           amount: amount * 100,
           pin: pin,
           billingDetails: billingDetails,
-          payment_method_types: ['card'],
+          payment_method_types: 'card',
         }),
       },
     )
+      .then(async (res) => {
+        const result = await res.json();
+        console.log(result)
+        const {paymentIntent, error} = await confirmPayment(result.client_secret, {
+          paymentMethodType: 'Card',
+          paymentMethodData: {
+            billingDetails,
+          },
+        });
+        if (error) {
+          throw new Error('Payment confirmation error', error);
+        } 
+      })
       .then(res => {
+        console.log(res)
         fetch(
           `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`,
           {
@@ -84,7 +99,7 @@ const TopUp = ({navigation}) => {
         });
       })
       .catch(err => {
-        console.log(err);
+        showError(err.message)
       });
   };
 
@@ -190,13 +205,17 @@ const TopUp = ({navigation}) => {
           <View>
             <CardField
               style={{
-                height: 30,
+                borderColor: colors.primary,
+                borderWidth: 1,
+                height: 60,
+                borderRadius: 4
               }}
               postalCodeEnabled={false}
               placeholder={{
-                number: '4242 4242 4242 4242',
+                number: '',
               }}
-              onCardChange={cardDetails => {}}
+              onCardChange={cardDetails => {
+              }}
             />
           </View>
           <Gap height={30} />

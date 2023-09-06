@@ -28,11 +28,11 @@ const Drawer = createDrawerNavigator();
 const MainApp = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Opening"
         component={Opening}
         options={{headerShown: false}}
-      /> 
+      />  */}
       <Stack.Screen
         name="Login"
         component={Login}

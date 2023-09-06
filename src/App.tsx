@@ -6,6 +6,8 @@ import FlashMessage from 'react-native-flash-message';
 import { Provider, useSelector } from 'react-redux';
 import store from './redux/store';
 import { LogBox } from 'react-native';
+import { StripeProvider } from '@stripe/stripe-react-native';
+import Config from 'react-native-config';
 //import { Loading } from './components';
 LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
  
@@ -23,10 +25,18 @@ const MainApp = () => {
 };
 
 const App = () => {
+  const key = `${Config.STRIPE_PUBLISHABLE_KEY}`
   return (
-    <Provider store={store}>
-      <MainApp />
-    </Provider>
+    <StripeProvider
+      publishableKey={key}
+      urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+      merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
+    >
+      <Provider store={store}>
+        <MainApp />
+      </Provider>
+    </StripeProvider>
+    
   );
 }
 

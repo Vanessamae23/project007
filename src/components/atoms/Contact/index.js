@@ -10,12 +10,12 @@ export const Contactlist = ({ title, contacts, onContactPress }) => (
             <Text style={styles.listTitle}>{title.toUpperCase()}</Text>
         </View>
         {contacts.map(contact => (
-            <Contact key={contact.number} {...contact} onPress={() => onContactPress(contact)} />
+            <Contact key={contact.uid} {...contact} onPress={() => onContactPress(contact)} />
         ))}
     </View>
 );
 
-export const Contact = ({ name, number, onPress }) => (
+export const Contact = ({ name, uid, onPress }) => (
     <TouchableOpacity
         style={styles.container}
         onPress={onPress}
@@ -25,7 +25,7 @@ export const Contact = ({ name, number, onPress }) => (
         </View>
         <View style={styles.details}>
             <Text style={styles.name}>{name}</Text>
-            <Text style={styles.number}>{number}</Text>
+            <Text style={styles.number}>{uid}</Text>
         </View>
     </TouchableOpacity>
 );

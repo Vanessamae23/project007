@@ -16,6 +16,7 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
 
   const login = useCallback(() => {
+
     fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/login`, {
       method: 'POST',
       headers: {

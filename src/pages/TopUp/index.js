@@ -1,11 +1,11 @@
 import {StyleSheet, Text, View, Alert} from 'react-native';
 import React, {useState, useCallback, useEffect} from 'react';
-import {colors, showSuccess, useForm} from '../../utils';
+import {colors, showError, showSuccess, useForm} from '../../utils';
 import {Button, Gap, Input} from '../../components';
 import {useSelector} from 'react-redux';
 import {setBalance} from '../../redux/balance-slice';
 import {useDispatch} from 'react-redux';
-import {CardField, useStripe} from '@stripe/stripe-react-native';
+import {CardField, useConfirmPayment, useStripe} from '@stripe/stripe-react-native';
 import Config from 'react-native-config';
 
 const TopUp = ({navigation}) => {
@@ -13,9 +13,13 @@ const TopUp = ({navigation}) => {
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [referenceCode, setReferenceCode] = useState('');
   const [amount, setAmount] = useState(0);
-  const [pin, setPin] = useState(0);
+  const [pin, setPin] = useState('');
+  const { confirmPayment } = useConfirmPayment();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [form, setForm] = useForm({
+    pin: ''
+  });
   const balance = useSelector(state => state.balance.value);
 
   const handleHighTopUp = () => {
@@ -41,6 +45,7 @@ const TopUp = ({navigation}) => {
       });
   };
 
+
   const processPayment = () => {
     const billingDetails = {
       email: 'email@stripe.com',
@@ -54,12 +59,27 @@ const TopUp = ({navigation}) => {
         },
         body: JSON.stringify({
           amount: amount * 100,
+          pin: pin,
           billingDetails: billingDetails,
-          payment_method_types: ['card'],
+          payment_method_types: 'card',
         }),
       },
     )
+      .then(async (res) => {
+        const result = await res.json();
+        console.log(result)
+        const {paymentIntent, error} = await confirmPayment(result.client_secret, {
+          paymentMethodType: 'Card',
+          paymentMethodData: {
+            billingDetails,
+          },
+        });
+        if (error) {
+          throw new Error('Payment confirmation error', error);
+        } 
+      })
       .then(res => {
+        console.log(res)
         fetch(
           `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`,
           {
@@ -79,9 +99,11 @@ const TopUp = ({navigation}) => {
         });
       })
       .catch(err => {
-        console.log(err);
+        showError(err.message)
       });
   };
+
+
 
   const handleOtpSubmit = useCallback(() => {
     fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/email/verify`, {
@@ -104,6 +126,28 @@ const TopUp = ({navigation}) => {
     });
   }, [otp]);
 
+  const handleSubmit = () => {
+    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/confirmPin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pin: pin,
+      }),
+    })
+      .then(res => {
+        if (res.status === 200) {
+          handleTopup();
+        } else {
+          throw new Error('Error pin authentication.');
+        }
+      })
+      .catch(error => {
+        showError("Error authenticating")
+      });
+  }
+
   const handleTopup = useCallback(() => {
     if (amount == 0) {
       Alert.alert('Error', 'Invalid amount.');
@@ -121,6 +165,8 @@ const TopUp = ({navigation}) => {
     },
     [],
   );
+
+ 
   useEffect(() => {}, [loading, referenceCode]);
   return (
     <View style={styles.page}>
@@ -148,7 +194,10 @@ const TopUp = ({navigation}) => {
             <Input
               secureTextEntry={true}
               fullWidth={true}
-              onNumber={handleNumber(setPin)}
+              onNumber
+              onChangeText={value => {
+                setPin(value)
+              }}
               label="Pin Number"
             />
           </View>
@@ -156,20 +205,24 @@ const TopUp = ({navigation}) => {
           <View>
             <CardField
               style={{
-                height: 30,
+                borderColor: colors.primary,
+                borderWidth: 1,
+                height: 60,
+                borderRadius: 4
               }}
               postalCodeEnabled={false}
               placeholder={{
-                number: '4242 4242 4242 4242',
+                number: '',
               }}
-              onCardChange={cardDetails => {}}
+              onCardChange={cardDetails => {
+              }}
             />
           </View>
           <Gap height={30} />
           <Button
             textColor={colors.black}
             color={colors.secondary}
-            onPress={handleTopup}
+            onPress={handleSubmit}
             text="Top Up"></Button>
           <Gap height={20} />
           <Button

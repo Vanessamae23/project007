@@ -14,10 +14,10 @@ const Register = ({navigation}) => {
     fullName: '',
     email: '',
     password: '',
+    pin: ''
   });
 
   const dispatch = useDispatch();
-
 
   const onContinue = useCallback(() => {
     setLoading(true);
@@ -30,6 +30,7 @@ const Register = ({navigation}) => {
         email: form.email,
         password: form.password,
         fullName: form.fullName,
+        pin: form.pin
       }),
     })
       .then(res => res.json())
@@ -38,6 +39,7 @@ const Register = ({navigation}) => {
           const data = {
             fullName: form.fullName,
             email: form.email,
+            walletId: res.walletId
           };
           dispatch(setUsername(form.fullName));
           dispatch(setEmail(form.email));
@@ -77,6 +79,14 @@ const Register = ({navigation}) => {
           value={form.password}
           onChangeText={value => setForm('password', value)}
           placeholder="Type your Password"
+          secureTextEntry={true}
+        />
+        <Gap height={16} />
+        <Input
+          label="Pin"
+          value={form.pin}
+          onChangeText={value => setForm('pin', value)}
+          placeholder="Type your Pin"
           secureTextEntry={true}
         />
         <Gap height={16} />

@@ -10,5 +10,6 @@ import History from "./History";
 import Profile from "./Profile";
 import Email from "./Email";
 import ResetPassword from "./ResetPassword";
+import Guardian from "./Guardian";
 
-export { Home, Withdraw, Register, Opening, Login, TopUp, Transfer, TransferAmount, History, Profile, Email, ResetPassword };
+export { Home, Withdraw, Register, Opening, Login, TopUp, Transfer, TransferAmount, History, Profile, Guardian, Email, ResetPassword };

@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import { Opening, Login, Register, Home, TopUp, Transfer, TransferAmount, Withdraw, History, Profile, Email, ResetPassword } from '../pages';
+import { Opening, Login, Register, Home, TopUp, Transfer, TransferAmount, Withdraw, History, Profile, Email, ResetPassword, Guardian } from '../pages';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigator } from '../components';
@@ -107,6 +107,7 @@ const Router = () => {
       }}>
       <Drawer.Screen name="Dashboard" component={MainApp} />
       <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Guardian" component={Guardian} />
     </Drawer.Navigator>
   )
 }

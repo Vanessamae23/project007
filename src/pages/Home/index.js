@@ -13,6 +13,7 @@ import {sampleTransactions} from '../History';
 import {setBalance} from '../../redux/balance-slice';
 import {useDispatch, useSelector} from 'react-redux';
 import Config from 'react-native-config';
+import { getData } from '../../utils/localStorage';
 
 export default function Home({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);

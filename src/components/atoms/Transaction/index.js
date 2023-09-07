@@ -2,19 +2,22 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {colors} from '../../../utils';
 
-const Transaction = ({type, contact, date, amount, showDate = true}) => {
+const Transaction = ({transactionType, contact, timestamp, amount, showDate = true}) => {
   const getDescription = () => {
-    switch (type) {
-      case 'Transfer':
-        return contact.name ?? contact.number;
-      case 'Top Up':
+    switch (transactionType) {
+      case 'transfer':
+        return contact.fullName ?? contact.email;
+      case 'topup':
         return 'Top Up';
-      case 'Withdraw':
+      case 'withdraw':
         return 'Withdraw';
       default:
         return '';
     }
   };
+
+  // get both date and time
+  const date = new Date(timestamp).toLocaleString();
 
   return (
     <View style={styles.card}>

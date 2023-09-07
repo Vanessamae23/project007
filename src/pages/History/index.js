@@ -1,69 +1,109 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { colors, useForm } from '../../utils'
 import { Button, Gap, Input, Transaction } from '../../components'
+import Config from 'react-native-config';
 
 export const sampleTransactions = [
     {
-        type: "Transfer", // Transfer, Top Up, Withdraw
+        transactionType: "transfer",
         contact: {
-            name: "Puri",
-            number: "91234567"
+            email: "puri@gmail.com",
+            fullName: "Puri",
+            walletId: "270971537447"
         },
-        date: "2023-08-30",
+        amount: -20.00,
+        timestamp: 1694103559869
+    },
+    {
+        transactionType: "transfer",
+        contact: {
+            email: "puri@gmail.com",
+            fullName: "Puri",
+            walletId: "270971537447"
+        },
+        amount: -20.00,
+        timestamp: 1694103559869
+    },
+    {
+        transactionType: "transfer",
+        contact: {
+            email: "puri@gmail.com",
+            fullName: "Puri",
+            walletId: "270971537447"
+        },
+        amount: -20.00,
+        timestamp: 1694103559869
+    },
+    {
+        transactionType: "transfer",
+        contact: {
+            email: "puri@gmail.com",
+            fullName: "Puri",
+            walletId: "270971537447"
+        },
+        amount: -20.00,
+        timestamp: 1694103559869
+    },
+    {
+        transactionType: "transfer",
+        contact: {
+            email: "puri@gmail.com",
+            fullName: "Puri",
+            walletId: "270971537447"
+        },
         amount: 20.00,
+        timestamp: 1694083359869
     },
     {
-        type: "Transfer", // Transfer, Top Up, Withdraw
-        contact: {
-            name: "Puri",
-            number: "91234567"
-        },
-        date: "2023-08-30",
-        amount: -15.23,
-    },
-    {
-        type: "Transfer", // Transfer, Top Up, Withdraw
-        contact: {
-            name: null,
-            number: "91220932"
-        },
-        date: "2023-08-28",
-        amount: -10.00,
-    },
-    {
-        type: "Top Up", // Transfer, Top Up, Withdraw
+        transactionType: "topup",
         contact: null,
-        date: "2023-08-26",
-        amount: 20.00
+        amount: 10,
+        timestamp: 1684103559869
     },
     {
-        type: "Withdraw", // Transfer, Top Up, Withdraw
+        transactionType: "withdraw",
         contact: null,
-        date: "2023-08-25",
-        amount: -10.00
+        amount: -10,
+        timestamp: 1594203559569
     },
+    {
+        transactionType: "withdraw",
+        contact: null,
+        amount: -10,
+        timestamp: 1594203559569
+    }
 ];
 
-const groupedTransactions = sampleTransactions.reduce((acc, curr) => {
-    if (!acc[curr.date]) {
-        acc[curr.date] = [];
-    }
-    acc[curr.date].push(curr);
-    return acc;
-}, {});
-
-
 const History = ({ navigation }) => {
+    const [transactions, setTransactions] = useState({});
+
+    useEffect(() => {
+        fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transactions`)
+            .then(res => res.json())
+            .then(res => {
+                // Group transactions by date
+                setTransactions(res.transactions.reduce((acc, curr) => {
+                    const date = new Date(curr.timestamp).toLocaleDateString();
+                    if (!acc[date]) {
+                        acc[date] = [];
+                    }
+                    acc[date].push(curr);
+                    return acc;
+                }
+                    , {}));
+            });
+    }, []);
+
     return (
         <View style={styles.page}>
             <View style={styles.box}>
                 <Text style={styles.welcome}>Transaction History</Text>
                 <ScrollView style={styles.tran}>
-                    {Object.entries(groupedTransactions).map(([date, transactions]) => (
+                    {Object.entries(transactions).map(([date, groupedTransactions]) => (
                         <View key={date}>
                             <Text style={styles.dateHeader}>{date}</Text>
-                            {transactions.map((transaction, index) => (
+                            {groupedTransactions.map((transaction, index) => (
                                 <Transaction key={index} {...transaction} showDate={false} />
                             ))}
                         </View>

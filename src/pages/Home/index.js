@@ -21,6 +21,8 @@ export default function Home({navigation}) {
   const username = useSelector(state => state.profile.fullName);
   const [wallet, setWallet] = useState(0);
 
+  const [transactions, setTransactions] = useState([]);
+
   useEffect(() => {
     getData('user').then(res => {
       const data = res;
@@ -33,6 +35,15 @@ export default function Home({navigation}) {
       .then(res => res.json())
       .then(res => {
         dispatch(setBalance(res.balance));
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transactions`)
+      .then(res => res.json())
+      .then(res => {
+        // set only 5 latest transactions
+        setTransactions(res.transactions.slice(0, 5));
       });
   }, []);
 
@@ -85,7 +96,7 @@ export default function Home({navigation}) {
           View All Transactions
         </Text>
         <ScrollView style={styles.tran}>
-          {sampleTransactions.map((transaction, index) => (
+          {transactions.map((transaction, index) => (
             <Transaction key={index} {...transaction} />
           ))}
         </ScrollView>
@@ -127,10 +138,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   subheader: {
-    fontSize: 12,
+    fontSize: 16,
     marginTop: -10,
     marginBottom: 10,
     backgroundColor: 'white',
-    flex: 1,
   },
 });

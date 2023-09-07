@@ -4,16 +4,82 @@ import {colors, showSuccess} from '../../utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {setBalance} from '../../redux/balance-slice';
 import {Button, Gap, Input} from '../../components';
+import {useStripe} from '@stripe/stripe-react-native';
+import Config from 'react-native-config';
 
 const Withdraw = ({navigation}) => {
   const [amount, setAmount] = useState(0);
+  const [accNumber, setAccNumber] = useState(0);
+  const {createToken} = useStripe();
+  const [routingNumber, setRoutingNumber] = useState(0);
   const [pin, setPin] = useState(0);
   const dispatch = useDispatch();
   const balance = useSelector(state => state.balance.value);
   const processWithdraw = () => {
-    showSuccess('Withdraw S$' + amount + ' from your account');
-    dispatch(setBalance(balance - amount));
-    navigation.navigate('Home');
+    const email = 'pr.virakarin.acc@gmail.com';
+    const response = fetch(
+      `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/create-account`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email}),
+      },
+    )
+      .then(res => {
+        if (res.status === 200) {
+          return res.json(nopx);
+        } else {
+          throw new Error('Error create payout request. Please try again.');
+        }
+      })
+      .then(async data => {
+        const tokenResponse = await createToken({
+          type: 'bankAccount',
+          bankAccount: {
+            country: 'SG',
+            currency: 'sgd',
+            accountHolderType: 'individual',
+            routingNumber: routingNumber,
+            accountNumber: accNumber,
+          },
+        });
+        if (tokenResponse.error) {
+          throw tokenResponse.error;
+        } else {
+          return {tokenResponse: tokenResponse, data: data};
+        }
+      })
+      .then(result => {
+        console.log('data: ', result);
+        console.log('data is here');
+        const payoutResponse = fetch(
+          `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/send-payout`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              accountId: result.data.accountId,
+              bankToken: result.tokenResponse.token.id,
+              amount: amount,
+            }),
+          },
+        )
+          .then(resp => {
+            showSuccess('Withdraw S$' + amount + ' from your account');
+            dispatch(setBalance(balance - amount));
+            navigation.navigate('Home');
+          })
+          .catch(error => {
+            throw error;
+          });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.message);
+      });
   };
   const handleWithdraw = useCallback(() => {
     if (amount == 0) {
@@ -61,7 +127,23 @@ const Withdraw = ({navigation}) => {
             label="Pin Number"
           />
         </View>
-        <Gap height={50} />
+        <Gap height={20} />
+        <View style={{width: '100%'}}>
+          <Input
+            fullWidth={true}
+            onNumber={handleNumber(setRoutingNumber)}
+            label="Routing Number"
+          />
+        </View>
+        <Gap height={20} />
+        <View style={{width: '100%'}}>
+          <Input
+            fullWidth={true}
+            onNumber={handleNumber(setAccNumber)}
+            label="Bank Account Number"
+          />
+        </View>
+        <Gap height={30} />
         <Button
           textColor={colors.black}
           color={colors.secondary}
@@ -98,12 +180,12 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: colors.primary,
-    paddingVertical: 50,
+    paddingVertical: 30,
     borderTopEndRadius: 30,
     borderTopStartRadius: 30,
     paddingHorizontal: 30,
     width: '100%',
-    flex: 2,
+    flex: 4.5,
     display: 'flex',
     flexDirection: 'column',
   },

@@ -10,8 +10,6 @@ import { colors } from '../utils';
 import { SideBar } from '../components';
 import { useNavigation } from '@react-navigation/native';
 
-
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -26,73 +24,69 @@ const Drawer = createDrawerNavigator();
 //   )
 // }
 
+const MainAppStack = createStackNavigator();
+
 const MainApp = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
+    <MainAppStack.Navigator>
+      <MainAppStack.Screen
         name="Opening"
         component={Opening}
-        options={{headerShown: false}}
-      /> 
-      <Stack.Screen
+        options={{ headerShown: false }}
+      />
+      <MainAppStack.Screen
         name="Login"
         component={Login}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-       <Stack.Screen
+      <MainAppStack.Screen
         name="Register"
         component={Register}
-        options={{headerShown: false}}
-      />  
-      {/* <Stack.Screen
-        name="MainApp"
-        component={MainApp}
-        options={{headerShown: false}}
-      />  */}
-      <Stack.Screen
+        options={{ headerShown: false }}
+      />
+      <MainAppStack.Screen
         name="Home"
         component={Home}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainAppStack.Screen
         name="TopUp"
         component={TopUp}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainAppStack.Screen
         name="Transfer"
         component={Transfer}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainAppStack.Screen
         name="TransferAmount"
         component={TransferAmount}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainAppStack.Screen
         name="Withdraw"
         component={Withdraw}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainAppStack.Screen
         name="History"
         component={History}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainAppStack.Screen
         name="Change email"
         component={Email}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
+      <MainAppStack.Screen
         name="Change password"
         component={ResetPassword}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-    </Stack.Navigator>
+    </MainAppStack.Navigator>
   );
 };
-
 const Router = () => {
   return (
     <Drawer.Navigator 

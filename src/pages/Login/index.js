@@ -29,7 +29,7 @@ const Login = ({navigation}) => {
         if (res.message == 'success') {
           dispatch(setUsername(res.fullName))
           dispatch(setEmail(res.email))
-          //storeData('user', res);
+          storeData('user', res);
           navigation.replace('Home');
         } else {
           showError('Wrong username or password!');

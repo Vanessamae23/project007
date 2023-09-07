@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, Image, ScrollView, Linking} from 'react-native';
 import React, {useState, useCallback} from 'react';
 import {Gap, Input, Button} from '../../components';
 import {useForm} from '../../utils';
@@ -35,11 +35,16 @@ const Register = ({navigation}) => {
     })
       .then(res => res.json())
       .then(res => {
+        console.log(res)
+        Linking.canOpenURL(res.account_link).then(() => {
+          Linking.openURL(res.account_link);
+      });
         if (res.message === 'success') {
           const data = {
             fullName: form.fullName,
             email: form.email,
-            walletId: res.walletId
+            walletId: res.walletId,
+            account_id: res.account_id
           };
           dispatch(setUsername(form.fullName));
           dispatch(setEmail(form.email));

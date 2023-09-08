@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Modal } from 'react-native'
 import React , {useState }from 'react'
 import { colors, useForm, showError, showSuccess } from '../../utils'
 import { Gap, Input, Button } from '../../components'
@@ -6,7 +6,7 @@ import Config from 'react-native-config'
 import { useDispatch } from 'react-redux'
 import { setEmail } from '../../redux/profile-slice'
 
-const Password = ({navigation}) => {
+const Password = ({navigation, visible, onClose}) => {
 
 
     const [email, setEmail] = useState(null);
@@ -38,59 +38,57 @@ const Password = ({navigation}) => {
 
 
   return (
-    <View style={styles.page}>
-        
-        <View style={styles.circle1} />
-        <View style={styles.circle2} />
-        <View style={styles.circle3} />
-        <View style={styles.header}>
-        </View>
+         
+         <View style={styles.page}>
 
-        <View style={styles.container}>
-            <Text style={styles.head}>Reset Your Password</Text>
-            <Text style={{opacity: 0.5, ...styles.subtitle}}>Please fill in all the fields below </Text>
-
-            <View style={{padding: 10, paddingTop: 35}}>
-                <View>
-                    <TextInput 
-                        placeholder="Email Address" 
-                        placeholderTextColor='#d3d3d3'
-                        style={styles.box}  
-                        onChangeText={value => setEmail(value)}
-                    />
-                </View>
+            <View style={styles.circle1} />
+            <View style={styles.circle2} />
+            <View style={styles.circle3} />
+            <View style={styles.header}>
             </View>
 
-            <View style={{padding: 10}}>
-                <View>
-                    <TextInput 
-                        secureTextEntry={true}
-                        placeholder="Current Password" 
-                        placeholderTextColor='#d3d3d3'
-                        style={styles.box}  
-                        onChangeText={value => setCurrentPassword(value)}
-                    />
-                </View>
-            </View>
+            <View style={styles.container}>
+                <Text style={styles.head}>Reset Your Password</Text>
+                <Text style={{ opacity: 0.5, ...styles.subtitle }}>Please fill in all the fields below </Text>
 
-            <View style={{padding: 10}}>
-                <View>
-                    <TextInput
-                        secureTextEntry={true} 
-                        placeholder="New Password" 
-                        placeholderTextColor='#d3d3d3'
-                        style={styles.box}  
-                        onChangeText={value => setNewPassword(value)}
-                    />
+                <View style={{ padding: 10, paddingTop: 35 }}>
+                    <View>
+                        <TextInput
+                            placeholder="Email Address"
+                            placeholderTextColor='#d3d3d3'
+                            style={styles.box}
+                            onChangeText={value => setEmail(value)} />
+                    </View>
                 </View>
-            </View>
 
-            <Gap height={20} />
-            <Button onPress={() => handleUpdate()}textColor={colors.black} color={colors.secondary} text="Update"></Button>
-            <Gap height={20} />
-            <Button onPress={() => navigation.navigate('Profile')} textColor={colors.black} color={colors.secondary} text="Back"></Button>
-        </View>
-    </View>
+                <View style={{ padding: 10 }}>
+                    <View>
+                        <TextInput
+                            secureTextEntry={true}
+                            placeholder="Current Password"
+                            placeholderTextColor='#d3d3d3'
+                            style={styles.box}
+                            onChangeText={value => setCurrentPassword(value)} />
+                    </View>
+                </View>
+
+                <View style={{ padding: 10 }}>
+                    <View>
+                        <TextInput
+                            secureTextEntry={true}
+                            placeholder="New Password"
+                            placeholderTextColor='#d3d3d3'
+                            style={styles.box}
+                            onChangeText={value => setNewPassword(value)} />
+                    </View>
+                </View>
+
+                <Gap height={20} />
+                <Button onPress={() => handleUpdate()} textColor={colors.black} color={colors.secondary} text="Update"></Button>
+                <Gap height={20} />
+                <Button onPress={() => navigation.navigate('Home')} textColor={colors.black} color={colors.secondary} text="Back"></Button>
+            </View>
+            </View>
   )
 }
 

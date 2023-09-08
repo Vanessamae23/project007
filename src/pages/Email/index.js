@@ -89,7 +89,7 @@ const Email = ({navigation}) => {
             <Gap height={20} />
             <Button onPress={() => handleUpdate()}textColor={colors.black} color={colors.secondary} text="Update"></Button>
             <Gap height={20} />
-            <Button onPress={() => navigation.navigate('Profile')} textColor={colors.black} color={colors.secondary} text="Back"></Button>
+            <Button onPress={() => navigation.navigate('Home')} textColor={colors.black} color={colors.secondary} text="Back"></Button>
             <TouchableOpacity onPress={() => navigation.navigate('Change password')}>
                 <Text style={{color: colors.white, fontWeight: '500', ...styles.subtitle}}>Forgot your password?</Text>
             </TouchableOpacity>

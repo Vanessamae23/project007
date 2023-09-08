@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, Alert } from 'react-native'
 import { storeData } from '../../utils/localStorage'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useId, useState } from 'react'
 import { colors, showError, showSuccess, useForm } from '../../utils'
 import { ICBack, ICEdit, ICEye, ICProfile, ICGo, ICLock } from '../../assets'
 import { TextInput } from 'react-native-gesture-handler'
@@ -11,15 +11,17 @@ import Config from 'react-native-config'
 import { useFocusEffect } from '@react-navigation/native'
 import { setUsername, setPhotoUrl, setPhoneNumber } from '../../redux/profile-slice'
 import { useDispatch, useSelector } from 'react-redux'
+import { current } from '@reduxjs/toolkit'
 
 const Profile = ({navigation}) => {
     const { isPasswordSecure, rightIcon, handlePasswordVisibility } = togglePasswordVisibility();
     const email = useSelector(state => state.profile.email);
     const phoneNumber = useSelector(state => state.profile.phoneNumber);
     const username = useSelector(state => state.profile.fullName);
+    const photoUrl = useSelector(state => state.profile.photoUrl);
     const dispatch = useDispatch();
-    const [uri, setUri] = useState(null);
-    
+    const [currentUri, setCurrentUri] = useState(null);
+   
     const uploadImage = async () => {
         const options = {
             title: 'Select Avatar',
@@ -34,7 +36,11 @@ const Profile = ({navigation}) => {
               console.log('User tapped custom button: ', response.customButton);
             } else {
                 var path = response.assets[0].uri;
-                setUri(path);
+                setCurrentUri(path);
+                dispatch(setPhotoUrl(path));
+                console.log('photourl: ' + photoUrl);
+                console.log('uri: ' + path);
+                
         }})
     }
 
@@ -60,7 +66,7 @@ const Profile = ({navigation}) => {
     const handleUpdate = () => {
         if (username == '' || email == '' || phoneNumber == '') {
             showError('Field(s) cannot be empty!')
-        } else if (uri == null) {
+        } else if (currentUri == null) {
             fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/profile/saveWithoutImage`, {
                 method: 'POST',
                 headers: {
@@ -93,7 +99,7 @@ const Profile = ({navigation}) => {
                     fullName: username,
                     email: email,
                     phoneNumber: phoneNumber,
-                    uri: uri
+                    uri: currentUri
                 })
             })
             .then(res => res.json())
@@ -101,11 +107,12 @@ const Profile = ({navigation}) => {
                 if (res.message == 'success') {
                     dispatch(setUsername(res.fullName));
                     dispatch(setPhotoUrl(res.photoUrl));
-                    //storeData('user', res);
-                    showSuccess('Image uploaded successfully!')
+                    console.log(res.uid);
+                    storeData('user/' + res.uid, res);
+                    showSuccess('Profile updated successfully!')
                     navigation.navigate('Home');
                 } else {
-                    showError('Image upload failed!')
+                    showError('Profile update failed!')
                 }
             })
         }
@@ -126,11 +133,10 @@ const Profile = ({navigation}) => {
       </View>
 
       <View style={styles.imageBG}>
-        {uri != null
-            ? <Image source={{uri: uri}} style={styles.user} />
+        {photoUrl != null
+            ? <Image source={{uri: photoUrl}} style={styles.user} />
             : <Image source={ICProfile} style={styles.user} />     
-        }
-        
+        }        
         
         <TouchableOpacity onPress={uploadImage}>
             <View style={styles.editBG}>
@@ -182,7 +188,8 @@ const Profile = ({navigation}) => {
             <Text style={{opacity: 0.5}}>Password</Text>
                 <TouchableOpacity 
                     style={{flexDirection: 'row'}}
-                    onPress={() => navigation.navigate('Change password')}>
+                    onPress={() => navigation.navigate('Change password')}
+                >
                     <Image source={ICLock} style={{width: 15, height: 18, marginTop: 10, marginRight: 10, marginLeft: 2}}/>
                     <Text style={{textDecorationLine: 'underline', ...styles.subtitle}}>Change password</Text>  
                 </TouchableOpacity>         

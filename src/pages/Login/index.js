@@ -5,7 +5,7 @@ import {colors, showError, useForm} from '../../utils';
 import {Button, Gap, Input} from '../../components';
 import Config from 'react-native-config';
 import { useDispatch } from 'react-redux';
-import { setUsername, setEmail } from '../../redux/profile-slice';
+import { setUsername, setEmail, setPhotoUrl, setPhoneNumber } from '../../redux/profile-slice';
 
 const Login = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -26,10 +26,14 @@ const Login = ({navigation}) => {
     })
       .then(res => res.json())
       .then(res => {
+        console.log(res);
         if (res.message == 'success') {
           dispatch(setUsername(res.fullName))
           dispatch(setEmail(res.email))
-          storeData('user', res);
+          dispatch(setPhotoUrl(res.photoUrl))
+          dispatch(setPhoneNumber(res.phoneNumber))
+          storeData('user/' + res.uid, res);
+          setForm('reset');
           navigation.replace('Home');
         } else {
           showError('Wrong username or password!');

@@ -14,6 +14,7 @@ import {setBalance} from '../../redux/balance-slice';
 import {useDispatch, useSelector} from 'react-redux';
 import Config from 'react-native-config';
 import { getData } from '../../utils/localStorage';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Home({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,14 +39,19 @@ export default function Home({navigation}) {
       });
   }, []);
 
-  useEffect(() => {
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transactions`)
-      .then(res => res.json())
-      .then(res => {
-        // set only 5 latest transactions
-        setTransactions(res.transactions.slice(0, 5));
-      });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transactions`)
+        .then(res => res.json())
+        .then(res => {
+          // set only 5 latest transactions
+          setTransactions(res.transactions.slice(0, 5));
+        });
+  
+      // Cleanup function to prevent memory leaks, if necessary
+      return () => {};
+    }, [])
+  );  
 
   const handleTopUp = () => {};
 

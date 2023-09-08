@@ -92,7 +92,6 @@ const TopUp = ({navigation}) => {
         } 
       })
       .then(res => {
-        console.log(res)
         fetch(
           `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/topup`,
           {
@@ -102,13 +101,21 @@ const TopUp = ({navigation}) => {
             },
             body: JSON.stringify({
               amount: amount,
+              pin: pin,
             }),
           },
-        ).then(resp => {
-          let final = balance + amount;
-          showSuccess('Added S$' + amount + ' to your account');
-          dispatch(setBalance(final));
-          navigation.navigate('Home');
+        )
+        .then(res => res.json())
+        .then(res => {
+          console.log("topup response", res);
+          if (res.message === 'success') {
+            let final = balance + amount;
+            showSuccess('Added S$' + amount + ' to your account');
+            dispatch(setBalance(final));
+            navigation.navigate('Home');
+          } else {
+            showError(res.message);
+          }
         });
       })
       .catch(err => {

@@ -40,11 +40,10 @@ const Register = ({navigation}) => {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
-        Linking.canOpenURL(res.account_link).then(() => {
-          Linking.openURL(res.account_link);
-        });
         if (res.message === 'success') {
+          Linking.canOpenURL(res.account_link).then(() => {
+            Linking.openURL(res.account_link);
+          });
           const data = {
             fullName: form.fullName,
             email: form.email,

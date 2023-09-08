@@ -129,7 +129,7 @@ const TransferAmount = ({route, navigation}) => {
   const {contact} = route.params; // Getting the contact passed from the Transfer page
 
   const [amount, setAmount] = useState(0);
-  const [pin, setPin] = useState(0); // pin currently not used?
+  const [pin, setPin] = useState('');
   const balance = useSelector(state => state.balance.value);
   const dispatch = useDispatch();
   const [currentUserContact, setCurrentUserContact] = useState(false);
@@ -140,7 +140,6 @@ const TransferAmount = ({route, navigation}) => {
       return;
     }
 
-    // Implement the transfer logic here, for now, we'll just go back
     fetch(
       `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transfer`,
       {
@@ -151,6 +150,7 @@ const TransferAmount = ({route, navigation}) => {
         body: JSON.stringify({
           uid: contact.uid,
           amount: amount,
+          pin: pin,
         }),
       }
     )
@@ -170,7 +170,7 @@ const TransferAmount = ({route, navigation}) => {
             dispatch(setBalance(res.balance));
           });
       });
-  }, [amount, contact]);
+  }, [amount, contact, pin]);
   const handleNumber = useCallback(
     handler => value => {
       handler(Number(value));

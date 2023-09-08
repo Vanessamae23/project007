@@ -163,7 +163,7 @@ const TopUp = ({navigation}) => {
   }
 
   const handleTopup = useCallback(() => {
-    if (amount == 0) {
+    if (amount <= 0) {
       Alert.alert('Error', 'Invalid amount.');
       return;
     }

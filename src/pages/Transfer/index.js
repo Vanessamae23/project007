@@ -129,7 +129,7 @@ const TransferAmount = ({route, navigation}) => {
   const {contact} = route.params; // Getting the contact passed from the Transfer page
 
   const [amount, setAmount] = useState(0);
-  const [pin, setPin] = useState(0);
+  const [pin, setPin] = useState(0); // pin currently not used?
   const balance = useSelector(state => state.balance.value);
   const dispatch = useDispatch();
   const [currentUserContact, setCurrentUserContact] = useState(false);
@@ -199,7 +199,7 @@ const TransferAmount = ({route, navigation}) => {
             secureTextEntry={true}
             fullWidth={true}
             onNumber
-            onChangeText={handleNumber(setAmount)}
+            onChangeText={handleNumber(setPin)}
             label="Pin Number"
           />
         </View>

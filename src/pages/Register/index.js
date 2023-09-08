@@ -5,8 +5,13 @@ import {useForm} from '../../utils';
 import {storeData} from '../../utils/localStorage';
 import {showError, showSuccess, colors} from '../../utils';
 import Config from 'react-native-config';
-import { useDispatch } from 'react-redux';
-import { setUsername, setPhotoUrl, setEmail, setPhoneNumber } from '../../redux/profile-slice'
+import {useDispatch} from 'react-redux';
+import {
+  setUsername,
+  setPhotoUrl,
+  setEmail,
+  setPhoneNumber,
+} from '../../redux/profile-slice';
 
 const Register = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -14,7 +19,7 @@ const Register = ({navigation}) => {
     fullName: '',
     email: '',
     password: '',
-    pin: ''
+    pin: '',
   });
 
   const dispatch = useDispatch();
@@ -30,26 +35,26 @@ const Register = ({navigation}) => {
         email: form.email,
         password: form.password,
         fullName: form.fullName,
-        pin: form.pin
+        pin: form.pin,
       }),
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res)
+        console.log(res);
         Linking.canOpenURL(res.account_link).then(() => {
           Linking.openURL(res.account_link);
-      });
+        });
         if (res.message === 'success') {
           const data = {
             fullName: form.fullName,
             email: form.email,
             walletId: res.walletId,
-            account_id: res.account_id
+            account_id: res.account_id,
           };
           dispatch(setUsername(form.fullName));
           dispatch(setEmail(form.email));
           dispatch(setPhotoUrl(null));
-          dispatch(setPhoneNumber('Not set yet'))
+          dispatch(setPhoneNumber('Not set yet'));
           storeData('user/' + res.uid, data);
           setForm('reset');
           navigation.navigate('Home', data);
@@ -99,6 +104,8 @@ const Register = ({navigation}) => {
         <Gap height={16} />
         <Gap height={24} />
         <Button onPress={onContinue} text="Continue" />
+        <Gap height={16} />
+        <Button text="Back" onPress={() => navigation.navigate('Login')} />
         <Gap height={100} />
       </View>
     </ScrollView>

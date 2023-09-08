@@ -10,7 +10,7 @@ const mainColors = {
     black1: "#00000",
     black2: 'rgba(0, 0, 0, 0.5)',
     red1: "#E06379",
-    green1: "#93C572",
+    green1: "#023020",
     grey2: "#3d3a33"
 }
 

@@ -5,7 +5,7 @@ import {Button, Gap, Input} from '../../components';
 import {useSelector} from 'react-redux';
 import {setBalance} from '../../redux/balance-slice';
 import {useDispatch} from 'react-redux';
-import {CardField, useConfirmPayment, useStripe} from '@stripe/stripe-react-native';
+import {CardField, createToken, useConfirmPayment, useElements, useStripe} from '@stripe/stripe-react-native';
 import Config from 'react-native-config';
 import { getData } from '../../utils/localStorage';
 
@@ -13,13 +13,15 @@ const TopUp = ({navigation}) => {
   const [otp, setOtp] = useState('');
   const [username, setUsername] = useState('');
   const [wallet, setWallet] = useState(0);
-
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [referenceCode, setReferenceCode] = useState('');
   const [amount, setAmount] = useState(0);
+  const [card, setCard] = useState(null);
   const [pin, setPin] = useState('');
   const { confirmPayment } = useConfirmPayment();
   const [loading, setLoading] = useState(false);
+  const [bd, setBD] = useState({});
+  const [cs, setCS] = useState('')
   const dispatch = useDispatch();
   const [form, setForm] = useForm({
     pin: ''
@@ -34,7 +36,7 @@ const TopUp = ({navigation}) => {
   }, []);
   const balance = useSelector(state => state.balance.value);
 
-  const handleHighTopUp = () => {
+  const handleHighTopUp = async () => {
     setShowOtpInput(true);
     fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/email/send`, {
       method: 'POST',
@@ -79,16 +81,26 @@ const TopUp = ({navigation}) => {
     )
       .then(async (res) => {
         const result = await res.json();
-        const {paymentIntent, error} = await confirmPayment(result.client_secret, {
+        console.log(result)
+        if (amount > 1000) {
+          handleHighTopUp();
+          setCS(result.client_secret)
+        } else {
+          confirmPaymentIntent(result.client_secret);
+        }
+      })
+  }
+
+      const confirmPaymentIntent = async (result) => {
+        const billingDetails = {
+          email: username,
+        };
+        const resp = await confirmPayment(result, {
           paymentMethodType: 'Card',
           paymentMethodData: {
             billingDetails,
           },
-        });
-        if (error) {
-          throw new Error('Payment confirmation error', error);
-        } 
-      })
+        })
       .then(res => {
         fetch(
           `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/topup`,
@@ -135,11 +147,13 @@ const TopUp = ({navigation}) => {
       if (res.status === 200) {
         setShowOtpInput(false);
         Alert.alert('Success', 'OTP verified successfully.');
-        processPayment();
+        confirmPaymentIntent(cs);
         return;
       } else {
         Alert.alert('Error', 'Incorrect OTP. Please try again.');
       }
+    }).catch((e) => {
+      console.log(e.message)
     });
   }, [otp]);
 
@@ -155,7 +169,7 @@ const TopUp = ({navigation}) => {
     })
       .then(res => {
         if (res.status === 200) {
-          handleTopup();
+          processPayment();
         } else {
           throw new Error('Error pin authentication.');
         }
@@ -232,6 +246,7 @@ const TopUp = ({navigation}) => {
                 number: '',
               }}
               onCardChange={cardDetails => {
+                setCard(cardDetails)
               }}
             />
           </View>

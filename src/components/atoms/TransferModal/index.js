@@ -16,7 +16,6 @@ export default function TransferModal({ visible, onClose, contact, navigation })
         navigation.navigate('TransferAmount', {contact})
     }
 
-
     return (
         <>
             <Modal
@@ -46,7 +45,7 @@ export default function TransferModal({ visible, onClose, contact, navigation })
                 </Text>
 
                 <Text style={styles.subHeading}>
-                    {contact.name} has a risk level of {contact.riskLevel}
+                    {contact.name} has a risk level of {contact.risk}
                 </Text>
 
                 <View style={{width: '100%'}}>

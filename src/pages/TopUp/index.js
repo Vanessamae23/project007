@@ -87,6 +87,7 @@ const TopUp = ({navigation}) => {
           },
         });
         if (error) {
+          console.log(error)
           throw new Error('Payment confirmation error', error);
         } 
       })
@@ -133,6 +134,7 @@ const TopUp = ({navigation}) => {
         processPayment();
         return;
       } else {
+        console.log(res)
         Alert.alert('Error', 'Incorrect OTP. Please try again.');
       }
     });
@@ -165,7 +167,7 @@ const TopUp = ({navigation}) => {
       Alert.alert('Error', 'Invalid amount.');
       return;
     }
-    if (amount > 1000000000) {
+    if (amount > 1000) {
       handleHighTopUp();
       return;
     }

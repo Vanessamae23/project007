@@ -14,26 +14,8 @@ import {Button, Gap, Input} from '../../components';
 import {Contactlist} from '../../components/atoms/Contact';
 import Config from 'react-native-config';
 import { setBalance } from '../../redux/balance-slice';
+import TransferModal from '../../components/atoms/TransferModal';
 
-// Sample contacts data
-const initialContacts = [
-  {name: 'Alan Walker', number: '91234567'},
-  {name: 'Beyonce Knowles', number: '86753019'},
-  {name: 'Charlie Puth', number: '98765432'},
-  {name: 'Dua Lipa', number: '90000001'},
-  {name: 'Ed Sheeran', number: '90000002'},
-  {name: 'Fifth Harmony', number: '90000003'},
-  {name: 'Gwen Stefani', number: '90000004'},
-  {name: 'Halsey', number: '90000005'},
-  {name: 'Imagine Dragons', number: '90000006'},
-  {name: 'Justin Bieber', number: '90000007'},
-  {name: 'Katy Perry', number: '90000008'},
-  {name: 'Lady Gaga', number: '90000009'},
-  {name: 'Maroon 5', number: '90000010'},
-  {name: 'Niall Horan', number: '90000011'},
-  {name: 'One Direction', number: '90000012'},
-  {name: 'Pitbull', number: '90000013'},
-];
 
 const Transfer = ({navigation}) => {
   const [query, setQuery] = useState('');
@@ -43,10 +25,12 @@ const Transfer = ({navigation}) => {
   const [isSearching, setIsSearching] = useState(false);
   const balance = useSelector(state => state.balance.value);
   const dispatch = useDispatch();
+  const [currentUserContact, setCurrentUserContact] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleSearchContact = useCallback(query => {
     if (!isSearching && query.length >= 2) {
-      fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/find-users?name=${query}`)
+      fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/find-users?email=${query}`)
         .then(res => res.json())
         .then(res => {
           setIsSearching(false);
@@ -67,9 +51,10 @@ const Transfer = ({navigation}) => {
   }, [navigation]);
 
   const handleContactPress = contact => {
-    navigation.navigate('TransferAmount', {contact});
+    setIsModalVisible(true);
+    setCurrentUserContact(contact)
+    //navigation.navigate('TransferAmount', {contact});
   };
-
   // Use effect to filter contacts when query changes
   useEffect(() => {
     if (!isQueryJustChanged) {
@@ -80,6 +65,10 @@ const Transfer = ({navigation}) => {
   const isValidPhoneNumber = number => {
     return number.length <= 8 && /^\d+$/.test(number);
   };
+
+  const handleOnClose = () => {
+    setIsModalVisible(false);
+  }
 
   return (
     <View style={styles.page}>
@@ -131,6 +120,7 @@ const Transfer = ({navigation}) => {
           onPress={() => navigation.goBack()}
           text="Back"></Button>
       </View>
+      <TransferModal visible={isModalVisible} onClose={handleOnClose} contact={currentUserContact} navigation={navigation}/>
     </View>
   );
 };
@@ -142,6 +132,7 @@ const TransferAmount = ({route, navigation}) => {
   const [pin, setPin] = useState(0);
   const balance = useSelector(state => state.balance.value);
   const dispatch = useDispatch();
+  const [currentUserContact, setCurrentUserContact] = useState(false);
 
   const handleTransfer = useCallback(() => {
     if (!amount || parseFloat(amount) <= 0) {
@@ -225,6 +216,7 @@ const TransferAmount = ({route, navigation}) => {
           onPress={() => navigation.goBack()}
           text="Back"></Button>
       </View>
+      
     </View>
   );
 };

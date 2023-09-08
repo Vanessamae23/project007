@@ -26,7 +26,6 @@ const Login = ({navigation}) => {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         if (res.message == 'success') {
           dispatch(setUsername(res.fullName))
           dispatch(setEmail(res.email))

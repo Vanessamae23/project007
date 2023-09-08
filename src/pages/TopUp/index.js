@@ -79,7 +79,6 @@ const TopUp = ({navigation}) => {
     )
       .then(async (res) => {
         const result = await res.json();
-        console.log(result)
         const {paymentIntent, error} = await confirmPayment(result.client_secret, {
           paymentMethodType: 'Card',
           paymentMethodData: {
@@ -87,7 +86,6 @@ const TopUp = ({navigation}) => {
           },
         });
         if (error) {
-          console.log(error)
           throw new Error('Payment confirmation error', error);
         } 
       })
@@ -107,7 +105,6 @@ const TopUp = ({navigation}) => {
         )
         .then(res => res.json())
         .then(res => {
-          console.log("topup response", res);
           if (res.message === 'success') {
             let final = balance + amount;
             showSuccess('Added S$' + amount + ' to your account');
@@ -141,7 +138,6 @@ const TopUp = ({navigation}) => {
         processPayment();
         return;
       } else {
-        console.log(res)
         Alert.alert('Error', 'Incorrect OTP. Please try again.');
       }
     });

@@ -139,7 +139,7 @@ const TransferAmount = ({route, navigation}) => {
   const {contact} = route.params; // Getting the contact passed from the Transfer page
 
   const [amount, setAmount] = useState(0);
-  const [pin, setPin] = useState(0);
+  const [pin, setPin] = useState('');
   const balance = useSelector(state => state.balance.value);
   const dispatch = useDispatch();
 
@@ -149,7 +149,6 @@ const TransferAmount = ({route, navigation}) => {
       return;
     }
 
-    // Implement the transfer logic here, for now, we'll just go back
     fetch(
       `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transfer`,
       {
@@ -160,6 +159,7 @@ const TransferAmount = ({route, navigation}) => {
         body: JSON.stringify({
           uid: contact.uid,
           amount: amount,
+          pin: pin,
         }),
       }
     )
@@ -179,7 +179,7 @@ const TransferAmount = ({route, navigation}) => {
             dispatch(setBalance(res.balance));
           });
       });
-  }, [amount, contact]);
+  }, [amount, contact, pin]);
   const handleNumber = useCallback(
     handler => value => {
       handler(Number(value));
@@ -208,7 +208,7 @@ const TransferAmount = ({route, navigation}) => {
             secureTextEntry={true}
             fullWidth={true}
             onNumber
-            onChangeText={handleNumber(setAmount)}
+            onChangeText={handleNumber(setPin)}
             label="Pin Number"
           />
         </View>

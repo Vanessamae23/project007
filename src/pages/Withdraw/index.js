@@ -55,41 +55,22 @@ const Withdraw = ({navigation}) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-           },
-           body: JSON.stringify({
-            amount: amount
-        })
-        })
-        .then(res => {
-        if (res.status === 200) {
-            console.log(res);
-        } else {
-            throw new Error('Error pin authentication.');
-        }
-        })
-        .then(res => {
-            console.log(res)
-            fetch(
-              `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/deduct`,
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  amount: amount,
-                }),
-              },
-            ).then(resp => {
-              let final = balance - amount;
-              showSuccess('Withdrawn S$' + amount + ' to your account');
-              dispatch(setBalance(final));
-              navigation.navigate('Home');
-            });
+          },
+          body: JSON.stringify({
+            amount: amount,
+            pin: pin,
           })
-        .catch(error => {
-        showError(error.message)
-        });
+        })
+        .then(res => {
+          if (res.status === 200) {
+            const final = balance - amount;
+            showSuccess('Withdrawn S$' + amount + ' to your account');
+            dispatch(setBalance(final));
+            navigation.navigate('Home');
+          } else {
+            res.json().then(res => showError(res.message));
+          }
+        })
       }
       const handleNumber = useCallback(
         handler => value => {

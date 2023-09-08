@@ -18,15 +18,17 @@ const Transaction = ({transactionType, contact, timestamp, amount, showDate = tr
 
   // get both date and time
   const date = new Date(timestamp).toLocaleString();
+  const time = new Date(timestamp).toLocaleTimeString();
 
   return (
     <View style={styles.card}>
       <View>
         <Text style={styles.name}>{getDescription()}</Text>
         {showDate && <Text style={styles.date}>{date}</Text>}
+        {!showDate && <Text style={styles.date}>{time}</Text>}
       </View>
       <View>
-        <Text style={styles.amount}>{amount.toFixed(2)}</Text>
+        <Text style={styles.amount}>$ {amount.toFixed(2)}</Text>
       </View>
     </View>
   );

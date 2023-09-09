@@ -54,7 +54,7 @@ const Register = ({navigation}) => {
           dispatch(setEmail(form.email));
           dispatch(setPhotoUrl(null));
           dispatch(setPhoneNumber('Not set yet'));
-          storeData('user/' + res.uid, data);
+          storeData('user', data);
           setForm('reset');
           navigation.navigate('Home', data);
           showSuccess('Successfully created!');

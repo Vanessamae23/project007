@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import Config from 'react-native-config'
 import {showError, showSuccess} from '../../../utils';
 import { useSelector } from 'react-redux'
+import { removeData } from '../../../utils/localStorage'
 
 const SideBar = (props) => {
     const username = useSelector(state => state.profile.fullName);

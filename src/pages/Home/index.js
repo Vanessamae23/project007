@@ -22,12 +22,13 @@ export default function Home({navigation}) {
   const username = useSelector(state => state.profile.fullName);
   const [wallet, setWallet] = useState(0);
   const [name, setName] = useState('')
-
+  const [bal, setBal] = useState(0)
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     getData('user').then(res => {
       const data = res;
+      console.log(res)
       setWallet(data.walletId);
       setName(data.fullName);
     });
@@ -36,10 +37,11 @@ export default function Home({navigation}) {
   useEffect(() => {
     fetch(`${Config.NODEJS_URL}payments/balance`)
       .then(res => res.json())
-      .then(res => {
+      .then(res => {  
+        setBal(bal)
         dispatch(setBalance(res.balance));
       });
-  }, []);
+  }, [bal]);
 
   useFocusEffect(
     useCallback(() => {
@@ -69,7 +71,7 @@ export default function Home({navigation}) {
           title="Good day,"
           subtitle={name}
         />
-        <Card name={name} wallet={wallet}/>
+        <Card name={name} wallet={wallet} bal={bal}/>
       </View>
       <View style={styles.box}>
         <Text style={styles.welcome}>Actions</Text>

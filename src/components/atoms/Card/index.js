@@ -3,7 +3,7 @@ import React from 'react'
 import { TiktokLogo } from '../../../assets'
 import { useSelector } from 'react-redux';
 
-export default function Card({name, wallet}) {
+export default function Card({name, wallet, bal}) {
     const balance = useSelector(state => state.balance.value);
     return (
         <View style={styles.card}>

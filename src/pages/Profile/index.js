@@ -107,7 +107,7 @@ const Profile = ({navigation}) => {
                 if (res.message == 'success') {
                     dispatch(setUsername(res.fullName));
                     dispatch(setPhotoUrl(res.photoUrl));
-                    storeData('user/' + res.uid, res);
+                    storeData('user', res);
                     showSuccess('Profile updated successfully!')
                     navigation.navigate('Home');
                 } else {

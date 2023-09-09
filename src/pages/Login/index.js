@@ -31,7 +31,7 @@ const Login = ({navigation}) => {
           dispatch(setEmail(res.email))
           dispatch(setPhotoUrl(res.photoUrl))
           dispatch(setPhoneNumber(res.phoneNumber))
-          storeData('user/' + res.uid, res);
+          storeData('user', res);
           setForm('reset');
           navigation.replace('Home');
         } else {

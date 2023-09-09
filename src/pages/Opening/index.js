@@ -17,13 +17,14 @@ const Opening = ({navigation}) => {
       .then(res => {
         setTimeout(() => {
           if (res.status) {
-            getData('user/' + res.uid).then(() => {
-              const data = res.user;
-              dispatch(setUsername(data.fullName))
-              dispatch(setEmail(data.email))
-              dispatch(setPhoneNumber(data.phoneNumber))
-              dispatch(setPhotoUrl(data.photoUrl))
-            })
+            // getData('user/' + res.uid).then(() => {
+            //   const data = res.user;
+            //   console.log(res)
+            //   dispatch(setUsername(data.fullName))
+            //   dispatch(setEmail(data.email))
+            //   dispatch(setPhoneNumber(data.phoneNumber))
+            //   dispatch(setPhotoUrl(data.photoUrl))
+            // })
            
             navigation.replace('Home');
           } else {

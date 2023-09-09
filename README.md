@@ -1,3 +1,12 @@
+## How To Use Our App
+1.  Register an account and follow the steps, after the onboarding process, return back to the app
+2.  Login with your credentials, can use our dummy account email dummyhack81@gmail.com and password is 123456
+3.  Do a top up the dummy card is 4242 4242 4242 4242 and CVV and expiry date is up to you
+4.  Do a transfer to another account for example press an account called `Pppp` which is an existing user
+5.  Do a withdraw
+6.  PIN for the dummy account is the same as the password
+7.  See transaction history to see the updates and verify
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started

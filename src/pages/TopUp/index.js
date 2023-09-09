@@ -66,7 +66,7 @@ const TopUp = ({navigation}) => {
     };
     
     fetch(
-      `http://172.31.33.189:3000/payments/intents`,
+      `${Config.NODEJS_URL}payments/intents`,
       {
         method: 'POST',
         headers: {

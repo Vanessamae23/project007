@@ -31,7 +31,7 @@ const Guardian = ({navigation}) => {
     query => {
       if (!isSearching && query.length >= 2) {
         fetch(
-          `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/find-users?name=${query}`,
+          `${Config.NODEJS_URL}payments/find-users?name=${query}`,
         )
           .then(res => res.json())
           .then(res => {
@@ -49,7 +49,7 @@ const Guardian = ({navigation}) => {
   const handleAdd = () => {
     if (selectedContact) {
       fetch(
-        `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/set-guardian`,
+        `${Config.NODEJS_URL}auth/set-guardian`,
         {
           method: 'POST',
           headers: {
@@ -83,7 +83,7 @@ const Guardian = ({navigation}) => {
   };
 
   useEffect(() => {
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/is-guarded`, {
+    fetch(`${Config.NODEJS_URL}auth/is-guarded`, {
       headers: {
         'Content-Type': 'application/json',
       },

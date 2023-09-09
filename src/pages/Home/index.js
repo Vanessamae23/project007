@@ -21,6 +21,7 @@ export default function Home({navigation}) {
   const dispatch = useDispatch();
   const username = useSelector(state => state.profile.fullName);
   const [wallet, setWallet] = useState(0);
+  const [name, setName] = useState('')
 
   const [transactions, setTransactions] = useState([]);
 
@@ -28,11 +29,12 @@ export default function Home({navigation}) {
     getData('user').then(res => {
       const data = res;
       setWallet(data.walletId);
+      setName(data.fullName);
     });
   }, []);
 
   useEffect(() => {
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`)
+    fetch(`${Config.NODEJS_URL}payments/balance`)
       .then(res => res.json())
       .then(res => {
         dispatch(setBalance(res.balance));
@@ -41,7 +43,7 @@ export default function Home({navigation}) {
 
   useFocusEffect(
     useCallback(() => {
-      fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transactions`)
+      fetch(`${Config.NODEJS_URL}payments/transactions`)
         .then(res => res.json())
         .then(res => {
           // set only 5 latest transactions
@@ -65,9 +67,9 @@ export default function Home({navigation}) {
           onPress={() => setModalVisible(!modalVisible)}
           modalVisible={modalVisible}
           title="Good day,"
-          subtitle={username}
+          subtitle={name}
         />
-        <Card name={username} wallet={wallet}/>
+        <Card name={name} wallet={wallet}/>
       </View>
       <View style={styles.box}>
         <Text style={styles.welcome}>Actions</Text>

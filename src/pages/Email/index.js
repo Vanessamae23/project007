@@ -15,7 +15,7 @@ const Email = ({navigation}) => {
     const [password, setPassword] = useState(null);
 
     const handleUpdate = () => {
-        fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/update-email`, {
+        fetch(`${Config.NODEJS_URL}auth/update-email`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

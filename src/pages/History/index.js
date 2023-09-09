@@ -79,7 +79,7 @@ const History = ({ navigation }) => {
     const [transactions, setTransactions] = useState({});
 
     useEffect(() => {
-        fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transactions`)
+        fetch(`${Config.NODEJS_URL}payments/transactions`)
             .then(res => res.json())
             .then(res => {
                 // Group transactions by date

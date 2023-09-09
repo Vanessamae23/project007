@@ -13,7 +13,7 @@ const SideBar = (props) => {
     const photoUrl = useSelector(state => state.profile.photoUrl);
 
     const logout = () => {
-        fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/logout`)
+        fetch(`${Config.NODEJS_URL}auth/logout`)
           .then(res => res.json())
           .then(res => {
             if (res.message === 'success') {

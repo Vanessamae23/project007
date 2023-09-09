@@ -5,7 +5,7 @@ module.exports = app => {
   app.use(
     '/',
     createProxyMiddleware({
-      target: `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}`,
+      target: `${Config.NODEJS_URL}`,
       changeOrigin: true,
     }),
   );

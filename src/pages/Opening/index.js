@@ -12,7 +12,7 @@ const Opening = ({navigation}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/is-logged-in`)
+    fetch(`${Config.NODEJS_URL}auth/is-logged-in`)
       .then(res => res.json())
       .then(res => {
         setTimeout(() => {

@@ -67,7 +67,7 @@ const Profile = ({navigation}) => {
         if (username == '' || email == '' || phoneNumber == '') {
             showError('Field(s) cannot be empty!')
         } else if (currentUri == null) {
-            fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/profile/saveWithoutImage`, {
+            fetch(`${Config.NODEJS_URL}profile/saveWithoutImage`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -90,7 +90,7 @@ const Profile = ({navigation}) => {
                 }
             })
         } else {
-            fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/profile/saveWithImage`, {
+            fetch(`${Config.NODEJS_URL}profile/saveWithImage`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

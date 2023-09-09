@@ -14,7 +14,7 @@ const Password = ({navigation, visible, onClose}) => {
     const [newPassword, setNewPassword] = useState(null);
 
     const handleUpdate = () => {
-        fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/update-password`, {
+        fetch(`${Config.NODEJS_URL}auth/update-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -17,7 +17,7 @@ const Login = ({navigation}) => {
 
   const login = useCallback(() => {
 
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/login`, {
+    fetch(`${Config.NODEJS_URL}auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

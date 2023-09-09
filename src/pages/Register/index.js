@@ -26,7 +26,7 @@ const Register = ({navigation}) => {
 
   const onContinue = useCallback(() => {
     setLoading(true);
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/auth/register`, {
+    fetch(`${Config.NODEJS_URL}auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -30,7 +30,7 @@ const Transfer = ({navigation}) => {
 
   const handleSearchContact = useCallback(query => {
     if (!isSearching && query.length >= 2) {
-      fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/find-users?email=${query}`)
+      fetch(`${Config.NODEJS_URL}payments/find-users?email=${query}`)
         .then(res => res.json())
         .then(res => {
           setIsSearching(false);
@@ -43,7 +43,7 @@ const Transfer = ({navigation}) => {
   }, [isSearching]);
 
   useEffect(() => {
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`)
+    fetch(`${Config.NODEJS_URL}payments/balance`)
       .then(res => res.json())
       .then(res => {
         dispatch(setBalance(res.balance));
@@ -141,7 +141,7 @@ const TransferAmount = ({route, navigation}) => {
     }
 
     fetch(
-      `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/transfer`,
+      `${Config.NODEJS_URL}payments/transfer`,
       {
         method: 'POST',
         headers: {
@@ -164,7 +164,7 @@ const TransferAmount = ({route, navigation}) => {
         }
       })
       .then(() => {
-        fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/balance`)
+        fetch(`${Config.NODEJS_URL}payments/balance`)
           .then(res => res.json())
           .then(res => {
             dispatch(setBalance(res.balance));

@@ -38,7 +38,7 @@ const TopUp = ({navigation}) => {
 
   const handleHighTopUp = async () => {
     setShowOtpInput(true);
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/email/send`, {
+    fetch(`${Config.NODEJS_URL}email/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -64,8 +64,9 @@ const TopUp = ({navigation}) => {
     const billingDetails = {
       email: username,
     };
+    
     fetch(
-      `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/intents`,
+      `http://172.31.33.189:3000/payments/intents`,
       {
         method: 'POST',
         headers: {
@@ -76,6 +77,7 @@ const TopUp = ({navigation}) => {
           pin: pin,
           billingDetails: billingDetails,
           payment_method_types: 'card',
+          email: username
         }),
       },
     )
@@ -88,6 +90,8 @@ const TopUp = ({navigation}) => {
         } else {
           confirmPaymentIntent(result.client_secret);
         }
+      }).catch((err) => {
+        showError(err.message)
       })
   }
 
@@ -103,7 +107,7 @@ const TopUp = ({navigation}) => {
         })
       .then(res => {
         fetch(
-          `http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/topup`,
+          `${Config.NODEJS_URL}payments/topup`,
           {
             method: 'POST',
             headers: {
@@ -135,7 +139,7 @@ const TopUp = ({navigation}) => {
 
 
   const handleOtpSubmit = useCallback(() => {
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/email/verify`, {
+    fetch(`${Config.NODEJS_URL}email/verify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -158,7 +162,8 @@ const TopUp = ({navigation}) => {
   }, [otp]);
 
   const handleSubmit = () => {
-    fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/confirmPin`, {
+    console.log(amount)
+    fetch(`${Config.NODEJS_URL}payments/confirmPin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

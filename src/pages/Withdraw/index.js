@@ -27,7 +27,7 @@ const Withdraw = ({navigation}) => {
       const [amount, setAmount] = useState(0);
 
       const handleSubmitPin = () => {
-        fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/confirmPin`, {
+        fetch(`${Config.NODEJS_URL}payments/confirmPin`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const Withdraw = ({navigation}) => {
         if(amount > balance) {
             throw new Error("Money withdrawn exceeded")
         }
-        fetch(`http://${Config.NODEJS_URL}:${Config.NODEJS_PORT}/payments/withdraw`, {
+        fetch(`${Config.NODEJS_URL}payments/withdraw`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
